@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi argentina tocho</title>
+    <style>
+
+@font-face {
+    font-family: 'NombreDeTuFuente'; 
+    src: url('CorporateSSCRegular.otf') format('opentype');
+}
+
+
+        body {
+            text-rendering: optimizeSpeed;
+            font-family: sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #dni-container {
+            position: relative;
+            width: 80vw; /* Ancho relativo al viewport */
+            max-width: 600px; /* Ancho máximo para mantener la legibilidad en pantallas grandes */
+            margin: 0 auto; /* Centrar el contenedor */
+        }
+
+        #dni-image {
+            width: 100%;
+            display: block;
+        }
+
+        #datos-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #dni-form {
+            width: 100%;
+            box-sizing: border-box;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative; /* Asegura que el formulario se coloque correctamente sobre la imagen */
+            z-index: 1; /* Asegura que el formulario esté por encima de la imagen */
+        }
+
+        #dni-form label, #dni-form input, #dni-form button {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="dni-container">
+        <img id="dni-image" src="dni.jpg" alt="DNI">
+        <canvas id="datos-overlay"></canvas>
+    </div>
+    <form id="dni-form">
+        <label for="nombre">Nombre:</label>
+        <input placeholder="Juan" type="text" id="nombre" name="nombre" oninput="actualizarDatos()">
+
+        <label for="apellido">Apellido:</label>
+        <input placeholder="Gomes" type="text" id="apellido" name="apellido" oninput="actualizarDatos()">
+
+        <label for="sexo">Sexo: </label>
+        <input placeholder="M / F" type="text" id="sexo" name="sexo" oninput="actualizarDatos()">
+
+        <label for="ejemplar">Ejemplar: </label>
+        <input placeholder="A/B/C" type="text" id="ejemplar" name="ejemplar" oninput="actualizarDatos()">
+
+        <label for="nacimiento">Fecha de Nacimiento: </label>
+        <input placeholder="22 MAR/ MAR 2005 " type="text" id="nacimiento" name="nacimiento" oninput="actualizarDatos()">
+
+        <label for="emision">Fecha de Emisión: </label>
+        <input placeholder="22 MAR/ MAR 2021 " type="text" id="emision" name="emision" oninput="actualizarDatos()">
+
+        <label for="vencimiento">Fecha de Vencimiento: </label>
+        <input placeholder="22 MAR/ MAR 2028 " type="text" id="vencimiento" name="vencimiento" oninput="actualizarDatos()">
+
+        <label for="tramite">Número Trámite: </label>
+        <input placeholder="123456789123456" type="number" id="tramite" name="tramite" oninput="actualizarDatos()">
+
+        <label for="dni">Número de DNI:</label>
+        <input placeholder="12.345.678" type="text" id="dni" name="dni" oninput="actualizarDatos()">
+    </form>
+    <script>
+function actualizarDatos() {
+    var apellido = document.getElementById('apellido').value.toUpperCase();
+    var nombre = document.getElementById('nombre').value.toUpperCase();
+    var sexo = document.getElementById('sexo').value.toUpperCase();
+    var ejemplar = document.getElementById('ejemplar').value.toUpperCase();
+    var nacimiento = document.getElementById('nacimiento').value.toUpperCase();
+    var emision = document.getElementById('emision').value.toUpperCase();
+    var vencimiento = document.getElementById('vencimiento').value.toUpperCase();
+    var tramite = document.getElementById('tramite').value.toUpperCase();
+    var dni = document.getElementById('dni').value.toUpperCase();
+
+    // Obtener el canvas y su contexto
+    var canvas = document.getElementById('datos-overlay');
+    var imagen = document.getElementById('dni-image');
+    canvas.width = imagen.width;
+    canvas.height = imagen.height;
+    var contexto = canvas.getContext('2d');
+
+    // Limpiar el canvas
+    contexto.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Tamaño de fuente relativo al ancho de la imagen
+    var fontSize = imagen.width * 0.03;
+    contexto.font =  fontSize + 'px NombreDeTuFuente';
+    contexto.fillStyle = 'black';
+    contexto.fontWeight = 'bold';
+    // Coordenadas proporcionales al tamaño de la imagen
+    var xNombre = imagen.width * 0.315;
+    var yNombre = imagen.height * 0.36;
+
+    var xApellido = imagen.width * 0.315;
+    var yApellido = imagen.height * 0.26;
+
+    var xsexo = imagen.width * 0.315;
+    var ysexo = imagen.height * 0.47;
+
+    // Otras coordenadas según necesites
+    // ...
+
+    // Dibujar los datos en el canvas
+    contexto.fillText(nombre, xNombre, yNombre);
+    contexto.fillText(apellido, xApellido, yApellido);
+    contexto.fillText(sexo, xsexo, ysexo);
+
+    // Otros datos
+}
+
+    </script>
+</body>
+</html>
