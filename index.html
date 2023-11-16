@@ -112,40 +112,18 @@ function ajustarPosicionContainer() {
     if (!isVisible) {
         var nuevaPosicion = rect.top + (window.innerHeight - rect.height) / 2;
         nuevaPosicion = Math.max(-20, nuevaPosicion); // Límite de ajuste del margen
-        dniContainer.style.marginTop = nuevaPosicion-80 + 'px';
+        dniContainer.style.marginTop = nuevaPosicion + 'px';
     } else {
         dniContainer.style.marginTop = '0px'; // Restaura el margen si es visible
     }
 }
+window.onload = function() {
+    ajustarPosicionContainer();
+}
 
-window.addEventListener('resize', ajustarPosicionContainer);
 
 // Llama a la función una vez al cargar la página para verificar la posición inicial
 ajustarPosicionContainer();
-let scrollPos = window.scrollY || window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop;
-let isScrollingUp = false;
-
-function preventScrollUp(event) {
-    let currentScroll = window.scrollY || window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop;
-    
-    if (currentScroll < scrollPos) {
-        isScrollingUp = true;
-        event.preventDefault();
-        return false;
-    } else {
-        isScrollingUp = false;
-    }
-    
-    scrollPos = currentScroll <= 0 ? 0 : currentScroll; 
-}
-
-window.addEventListener('scroll', preventScrollUp);
-
-document.addEventListener('touchstart', function (e) {
-    if (isScrollingUp) {
-        e.preventDefault();
-    }
-}, { passive: false });
 
 
 function actualizarDatos() {
