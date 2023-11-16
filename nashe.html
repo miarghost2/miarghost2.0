@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generador de código QR PDF417</title>
+</head>
+<body>
+
+<!-- Agrega un input para ingresar los datos -->
+<input type="text" id="datos" placeholder="Ingrese los datos para el código QR">
+<button onclick="generarCodigoQR()">Generar código QR</button>
+<br>
+<!-- Aquí se mostrará la imagen del código QR -->
+<img id="codigoQR" alt="Código QR generado">
+
+<script src="https://cdn.rawgit.com/sitepoint-editors/jsqrcode/master/src/pdf417-min.js"></script>
+<script>
+function generarCodigoQR() {
+  // Obtiene los datos ingresados por el usuario
+  const datos = document.getElementById('datos').value;
+
+  // Verifica si se ingresaron datos
+  if (datos === '') {
+    alert('Por favor ingrese los datos para generar el código QR');
+    return;
+  }
+
+  // Crea un objeto PDF417
+  const codigoQR = new PDF417();
+
+  // Establece los datos que se codificarán en el código QR
+  codigoQR.setData(datos);
+
+  // Genera la imagen del código QR
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Ajusta el tamaño del canvas para el código QR
+  const size = codigoQR.calculateSize();
+  canvas.width = size.width * 2;
+  canvas.height = size.height * 2;
+
+  // Renderiza el código QR en el canvas
+  codigoQR.render({
+    canvas: canvas,
+    scale: 2 // Ajusta el nivel de escala según sea necesario
+  });
+
+  // Obtiene la URL de la imagen generada
+  const imagenCodigoQR = canvas.toDataURL('image/png');
+
+  // Muestra la imagen del código QR en la página
+  const imagenElement = document.getElementById('codigoQR');
+  imagenElement.src = imagenCodigoQR;
+}
+</script>
+
+</body>
+</html>
