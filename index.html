@@ -11,12 +11,12 @@
     <style>
 @font-face {
   font-family: 'NombreDeTuFuente'; 
-  src: url('fuente.otf') format('opentype');
+  src: url('NimbusSanL-Reg.otf') format('opentype');
 }
 
 
         body {
-            font-family: "roboto", sans-serif;
+            font-family: "NombreDeTuFuente", sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -150,7 +150,7 @@ function actualizarDatos() {
     var fontSize = 12; // Tamaño de la fuente deseado, puedes ajustarlo
 
     contexto.fillStyle = 'black';
-    contexto.font = fontSize + 'px fira-mono, Arial';
+    contexto.font = fontSize + 'px NombreDeTuFuente, Arial';
     
 
     // Coordenadas proporcionales al tamaño de la imagen
@@ -216,7 +216,7 @@ function actualizarDatos() {
     }
 
     // Configurar fuente en negrita solo para el número de DNI
-    contexto.font = 'bold ' + 16 + 'px fira-mono, Arial';
+    contexto.font = 'bold ' + 16 + 'px ROBOO, Arial';
     contexto.fillText(dni, xdni, ydni);
  }
 
