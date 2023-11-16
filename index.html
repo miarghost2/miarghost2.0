@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de DNI</title>
-    <link rel="stylesheet" href="https://use.typekit.net/hdq5bvf.css">    <style>
+    <link rel="stylesheet" href="https://use.typekit.net/hdq5bvf.css">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
 @font-face {
   font-family: 'NombreDeTuFuente'; 
   src: url('fuente.otf') format('opentype');
@@ -93,6 +95,31 @@
     </form>
     <script>
 
+//$(document).ready(function() {
+  //  var screenWidth = $(window).width();
+
+    //if (screenWidth <800) { // Cambia el valor 768 por el ancho deseado para las pantallas más pequeñas
+      //  $('#dni-container').css('margin-top', '50px'); // Ajusta el valor del margen superior según sea necesario
+    //}
+//});
+function ajustarPosicionContainer() {
+    var dniContainer = document.getElementById('dni-container');
+    var rect = dniContainer.getBoundingClientRect();
+    var isVisible = (rect.top >= 0) && (rect.bottom <= window.innerHeight);
+
+    if (!isVisible) {
+        var nuevaPosicion = rect.top + (window.innerHeight - rect.height) / 2;
+        nuevaPosicion = Math.max(-20, nuevaPosicion); // Límite de ajuste del margen
+        dniContainer.style.marginTop = nuevaPosicion-80 + 'px';
+    } else {
+        dniContainer.style.marginTop = '0px'; // Restaura el margen si es visible
+    }
+}
+
+window.addEventListener('resize', ajustarPosicionContainer);
+
+// Llama a la función una vez al cargar la página para verificar la posición inicial
+ajustarPosicionContainer();
 
 
 function actualizarDatos() {
