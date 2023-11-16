@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi argentina tocho</title>
-    <style>
-
+    <title>Formulario de DNI</title>
+    <link rel="stylesheet" href="https://use.typekit.net/hdq5bvf.css">    <style>
 @font-face {
-    font-family: 'NombreDeTuFuente'; 
-    src: url('CorporateSSCRegular.otf') format('opentype');
+  font-family: 'NombreDeTuFuente'; 
+  src: url('fuente.otf') format('opentype');
 }
 
 
         body {
-            text-rendering: optimizeSpeed;
-            font-family: sans-serif;
+            font-family: "roboto", sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            height: 100vh;
         }
 
         #dni-container {
-            position: relative;
-            width: 80vw; /* Ancho relativo al viewport */
-            max-width: 600px; /* Ancho máximo para mantener la legibilidad en pantallas grandes */
-            margin: 0 auto; /* Centrar el contenedor */
-        }
+    position: relative;
+    width: 400px; /* Tamaño fijo para la imagen */
+    height: auto; /* Altura automática para mantener la proporción */
+    margin: 0 auto; /* Centrar el contenedor */
+}
+
 
         #dni-image {
             width: 100%;
@@ -47,8 +47,8 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative; /* Asegura que el formulario se coloque correctamente sobre la imagen */
-            z-index: 1; /* Asegura que el formulario esté por encima de la imagen */
+            position: relative; /* Asegura que el formulario este bien sobre la imagen */
+            z-index: 1; /* Asegura que el formulario esté arriba de la imagen */
         }
 
         #dni-form label, #dni-form input, #dni-form button {
@@ -64,11 +64,11 @@
         <canvas id="datos-overlay"></canvas>
     </div>
     <form id="dni-form">
-        <label for="nombre">Nombre:</label>
-        <input placeholder="Juan" type="text" id="nombre" name="nombre" oninput="actualizarDatos()">
+        <label for="nombre">Apellido:</label>
+        <input placeholder="Gomes" type="text" id="nombre" name="nombre" oninput="actualizarDatos()">
 
-        <label for="apellido">Apellido:</label>
-        <input placeholder="Gomes" type="text" id="apellido" name="apellido" oninput="actualizarDatos()">
+        <label for="apellido">Nombre:</label>
+        <input placeholder="Juan" type="text" id="apellido" name="apellido" oninput="actualizarDatos()">
 
         <label for="sexo">Sexo: </label>
         <input placeholder="M / F" type="text" id="sexo" name="sexo" oninput="actualizarDatos()">
@@ -77,13 +77,13 @@
         <input placeholder="A/B/C" type="text" id="ejemplar" name="ejemplar" oninput="actualizarDatos()">
 
         <label for="nacimiento">Fecha de Nacimiento: </label>
-        <input placeholder="22 MAR/ MAR 2005 " type="text" id="nacimiento" name="nacimiento" oninput="actualizarDatos()">
+        <input value="22 MAR/ MAR 2005" type="text" id="nacimiento" name="nacimiento" oninput="actualizarDatos()">
 
         <label for="emision">Fecha de Emisión: </label>
-        <input placeholder="22 MAR/ MAR 2021 " type="text" id="emision" name="emision" oninput="actualizarDatos()">
+        <input value="22 MAR/ MAR 2021" type="text" id="emision" name="emision" oninput="actualizarDatos()">
 
         <label for="vencimiento">Fecha de Vencimiento: </label>
-        <input placeholder="22 MAR/ MAR 2028 " type="text" id="vencimiento" name="vencimiento" oninput="actualizarDatos()">
+        <input value="22 MAR/ MAR 2028" type="text" id="vencimiento" name="vencimiento" oninput="actualizarDatos()">
 
         <label for="tramite">Número Trámite: </label>
         <input placeholder="123456789123456" type="number" id="tramite" name="tramite" oninput="actualizarDatos()">
@@ -92,6 +92,9 @@
         <input placeholder="12.345.678" type="text" id="dni" name="dni" oninput="actualizarDatos()">
     </form>
     <script>
+
+
+
 function actualizarDatos() {
     var apellido = document.getElementById('apellido').value.toUpperCase();
     var nombre = document.getElementById('nombre').value.toUpperCase();
@@ -102,42 +105,93 @@ function actualizarDatos() {
     var vencimiento = document.getElementById('vencimiento').value.toUpperCase();
     var tramite = document.getElementById('tramite').value.toUpperCase();
     var dni = document.getElementById('dni').value.toUpperCase();
+    var nacionalidad = "ARGENTINA";
 
-    // Obtener el canvas y su contexto
+    // conseguir  canvas y su contexto
     var canvas = document.getElementById('datos-overlay');
     var imagen = document.getElementById('dni-image');
     canvas.width = imagen.width;
     canvas.height = imagen.height;
     var contexto = canvas.getContext('2d');
 
-    // Limpiar el canvas
+    // Limpiar  canvas
     contexto.clearRect(0, 0, canvas.width, canvas.height);
 
     // Tamaño de fuente relativo al ancho de la imagen
-    var fontSize = imagen.width * 0.03;
-    contexto.font =  fontSize + 'px NombreDeTuFuente';
+    var fontSize = 12; // Tamaño de la fuente deseado, puedes ajustarlo
+
     contexto.fillStyle = 'black';
-    contexto.fontWeight = 'bold';
+    contexto.font = fontSize + 'px fira-mono, Arial';
+    
+
     // Coordenadas proporcionales al tamaño de la imagen
-    var xNombre = imagen.width * 0.315;
-    var yNombre = imagen.height * 0.36;
 
-    var xApellido = imagen.width * 0.315;
-    var yApellido = imagen.height * 0.26;
+    var xNombre = imagen.width * 0.31;
+    var yNombre = imagen.height * 0.265;
 
-    var xsexo = imagen.width * 0.315;
+    var xApellido = imagen.width * 0.31;
+    var yApellido = imagen.height * 0.365;
+
+    var xsexo = imagen.width * 0.31;
     var ysexo = imagen.height * 0.47;
 
-    // Otras coordenadas según necesites
-    // ...
+    var xnacionalidad = imagen.width * 0.448;
+    var ynacionalidad = imagen.height * 0.47;
+
+    var xejemplar = imagen.width * 0.765;
+    var yejemplar = imagen.height * 0.47;
+
+    var xnacimiento = imagen.width * 0.31;
+    var ynacimiento = imagen.height * 0.568;
+
+    var xemision = imagen.width * 0.31;
+    var yemision = imagen.height * 0.67;
+
+    var xvencimiento = imagen.width * 0.31;
+    var yvencimiento = imagen.height * 0.777;
+
+    var xtramite = imagen.width * 0.31;
+    var ytramite = imagen.height * 0.9;
+
+    var xdni = imagen.width * 0.04;
+    var ydni = imagen.height * .92;
 
     // Dibujar los datos en el canvas
     contexto.fillText(nombre, xNombre, yNombre);
     contexto.fillText(apellido, xApellido, yApellido);
     contexto.fillText(sexo, xsexo, ysexo);
+    contexto.fillText(nacionalidad, xnacionalidad, ynacionalidad);
+    contexto.fillText(ejemplar, xejemplar, yejemplar);
+    contexto.fillText(nacimiento, xnacimiento, ynacimiento);
+    contexto.fillText(emision, xemision, yemision);
+    contexto.fillText(vencimiento, xvencimiento, yvencimiento);
 
-    // Otros datos
-}
+
+
+    if (tramite.length > 11) {
+        var tramo1 = tramite.substring(0, 11);
+        var tramo2 = tramite.substring(11);
+
+        // Obtener la longitud de la primera parte del trámite
+        var longitudTramo1 = contexto.measureText(tramo1).width;
+
+        // Si la longitud de la segunda parte del trámite supera cierto valor, ajustar la posición vertical
+        if (contexto.measureText(tramo2).width > imagen.width * 0.4) {
+            ytramite += fontSize * 1.5; // Ajustar la posición verticalmente
+        }
+
+        contexto.fillText(tramo1, xtramite, ytramite); // Dibuja la primera parte del trámite
+        contexto.fillText(tramo2, xtramite, ytramite + fontSize); // Dibuja la segunda parte del trámite abajo
+    } else {
+        contexto.fillText(tramite, xtramite, ytramite); // Si no supera los 11 caracteres, dibuja el trámite normalmente
+    }
+
+    // Configurar fuente en negrita solo para el número de DNI
+    contexto.font = 'bold ' + 16 + 'px fira-mono, Arial';
+    contexto.fillText(dni, xdni, ydni);
+ }
+
+
 
     </script>
 </body>
