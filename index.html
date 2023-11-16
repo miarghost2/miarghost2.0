@@ -104,26 +104,27 @@
       //  $('#dni-container').css('margin-top', '50px'); // Ajusta el valor del margen superior según sea necesario
     //}
 //});
-function ajustarPosicionContainer() {
-    var dniContainer = document.getElementById('dni-container');
-    var rect = dniContainer.getBoundingClientRect();
-    var isVisible = (rect.top >= 0) && (rect.bottom <= window.innerHeight);
-
-    if (!isVisible) {
-        var nuevaPosicion = rect.top + (window.innerHeight - rect.height) / 2;
-        nuevaPosicion = Math.max(-20, nuevaPosicion); // Límite de ajuste del margen
-        dniContainer.style.marginTop = nuevaPosicion + 'px';
-    } else {
-        dniContainer.style.marginTop = '0px'; // Restaura el margen si es visible
-    }
-}
 window.onload = function() {
-    ajustarPosicionContainer();
-}
+
+        let dniContainer = document.getElementById('dni-container');
+        let rect = dniContainer.getBoundingClientRect();
+        let isVisible = (rect.top >= 0) && (rect.bottom <= window.innerHeight);
+
+        if (!isVisible) {
+            let nuevaPosicion = rect.top + (window.innerHeight - rect.height) / 2;
+            nuevaPosicion = Math.max(-20, nuevaPosicion); // Límite de ajuste del margen
+            dniContainer.style.marginTop = nuevaPosicion + 'px';
+        } else {
+            dniContainer.style.marginTop = '0px'; // Restaura el margen si es visible
+        }
+
+};
+
+
+
 
 
 // Llama a la función una vez al cargar la página para verificar la posición inicial
-ajustarPosicionContainer();
 
 
 function actualizarDatos() {

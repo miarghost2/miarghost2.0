@@ -1,41 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Generador de código QR PDF417</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-
-<!-- Agrega un input para ingresar los datos -->
-<input type="text" id="datos" placeholder="Ingrese los datos para el código QR">
-<button onclick="generarCodigoQR()">Generar código QR</button>
-<br>
-<!-- Aquí se mostrará la imagen del código QR -->
-<img id="codigoQR" alt="Código QR generado">
-
-<script src="https://rawcdn.githack.com/ihabunek/pdf417-generator/v1.0.2/pdf417.js"></script>
-<script>
-function generarCodigoQR() {
-  // Obtiene los datos ingresados por el usuario
-  const datos = document.getElementById('datos').value;
-
-  // Verifica si se ingresaron datos
-  if (datos === '') {
-    alert('Por favor ingrese los datos para generar el código QR');
-    return;
-  }
-
-  // Genera el código QR PDF417
-  const codigoQR = PDF417.getBarcodeArray(datos);
-  const canvas = PDF417.renderBarcodeToCanvas(codigoQR, { scaleX: 2, scaleY: 2 });
-
-  // Obtiene la URL de la imagen generada
-  const imagenCodigoQR = canvas.toDataURL('image/png');
-
-  // Muestra la imagen del código QR en la página
-  const imagenElement = document.getElementById('codigoQR');
-  imagenElement.src = imagenCodigoQR;
-}
-</script>
-
+    <div style='text-align: center;'>
+        <!-- insert your custom barcode setting your data in the GET parameter "data" -->
+        <img alt='Barcode Generator TEC-IT'
+             src='https://barcode.tec-it.com/barcode.ashx?data=This+is+a+PDF417+by+TEC-IT&code=PDF417&translate-esc=on'/>
+      </div>
+      <div style='padding-top:8px; text-align:center; font-size:15px; font-family: Source Sans Pro, Arial, sans-serif;'>
+      </div>
 </body>
 </html>
