@@ -12,7 +12,7 @@
 <!-- Aquí se mostrará la imagen del código QR -->
 <img id="codigoQR" alt="Código QR generado">
 
-<script src="https://cdn.rawgit.com/sitepoint-editors/jsqrcode/master/src/pdf417-min.js"></script>
+<script src="https://rawcdn.githack.com/ihabunek/pdf417-generator/v1.0.2/pdf417.js"></script>
 <script>
 function generarCodigoQR() {
   // Obtiene los datos ingresados por el usuario
@@ -24,26 +24,9 @@ function generarCodigoQR() {
     return;
   }
 
-  // Crea un objeto PDF417
-  const codigoQR = new PDF417();
-
-  // Establece los datos que se codificarán en el código QR
-  codigoQR.setData(datos);
-
-  // Genera la imagen del código QR
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-
-  // Ajusta el tamaño del canvas para el código QR
-  const size = codigoQR.calculateSize();
-  canvas.width = size.width * 2;
-  canvas.height = size.height * 2;
-
-  // Renderiza el código QR en el canvas
-  codigoQR.render({
-    canvas: canvas,
-    scale: 2 // Ajusta el nivel de escala según sea necesario
-  });
+  // Genera el código QR PDF417
+  const codigoQR = PDF417.getBarcodeArray(datos);
+  const canvas = PDF417.renderBarcodeToCanvas(codigoQR, { scaleX: 2, scaleY: 2 });
 
   // Obtiene la URL de la imagen generada
   const imagenCodigoQR = canvas.toDataURL('image/png');
