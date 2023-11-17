@@ -94,16 +94,16 @@
 
         <label for="dni">Número de DNI:</label>
         <input placeholder="12.345.678" type="text" id="dni" name="dni" oninput="actualizarDatos()">
+        <button type="button" onclick="avanzar()">SIGUIENTE</button>
     </form>
+    <form id="dni-form2" style="display: none;">
+        <label for="imagenDNI">Imagen para el DNI:</label>
+        <input type="file" id="imagenDNI" name="imagenDNI">
+    </form>
+
     <script>
 
-//$(document).ready(function() {
-  //  var screenWidth = $(window).width();
 
-    //if (screenWidth <800) { // Cambia el valor 768 por el ancho deseado para las pantallas más pequeñas
-      //  $('#dni-container').css('margin-top', '50px'); // Ajusta el valor del margen superior según sea necesario
-    //}
-//});
 window.onload = function() {
 
         let dniContainer = document.getElementById('dni-container');
@@ -117,6 +117,7 @@ window.onload = function() {
         } else {
             dniContainer.style.marginTop = '0px'; // Restaura el margen si es visible
         }
+        actualizarDatos();
 
 };
 
@@ -138,6 +139,8 @@ function actualizarDatos() {
     var tramite = document.getElementById('tramite').value.toUpperCase();
     var dni = document.getElementById('dni').value.toUpperCase();
     var nacionalidad = "ARGENTINA";
+    var imagenDni = document.getElementById('imagenDNI');
+
 
     // conseguir  canvas y su contexto
     var canvas = document.getElementById('datos-overlay');
@@ -197,6 +200,7 @@ function actualizarDatos() {
     contexto.fillText(nacimiento, xnacimiento, ynacimiento);
     contexto.fillText(emision, xemision, yemision);
     contexto.fillText(vencimiento, xvencimiento, yvencimiento);
+   
 
 
 
@@ -222,6 +226,62 @@ function actualizarDatos() {
     contexto.font = 'bold ' + 16 + 'px ROBOO, Arial';
     contexto.fillText(dni, xdni, ydni);
  }
+
+    function avanzar() {
+        document.getElementById("dni-form").style.display = "none";
+        document.getElementById("dni-form2").style.display = "block";
+
+    }
+
+    document.getElementById('imagenDNI').addEventListener('change', function(event) {
+    const imagenSeleccionada = event.target.files[0];
+
+    if (imagenSeleccionada) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const imagen = new Image();
+            imagen.onload = function() {
+                const dniContainer = document.getElementById('dni-container');
+                const canvas = document.getElementById('datos-overlay');
+                const canvasAncho = 114; // Ancho deseado para el canvas
+                const canvasAlto = 200; // Alto deseado para el canvas
+
+                canvas.width = canvasAncho;
+                canvas.height = canvasAlto;
+
+                const contexto = canvas.getContext('2d');
+
+                let x = 20; // Coordenada X inicial
+                let y = 62; // Coordenada Y inicial
+
+                let anchoImagen = imagen.width;
+                let altoImagen = imagen.height;
+
+                // Función para dibujar la imagen en las coordenadas x e y especificadas
+                function dibujarImagen() {
+                    // Limpiar el canvas
+                    contexto.clearRect(0, 0, canvas.width, canvas.height);
+
+                    // Redimensionar la imagen al tamaño del canvas
+                    contexto.drawImage(imagen, x, y, canvasAncho, canvasAlto);
+                }
+
+                // Dibujar la imagen inicialmente
+                dibujarImagen();
+
+                dniContainer.appendChild(canvas); // Agregar el canvas al contenedor del documento de identidad
+            };
+
+            imagen.src = e.target.result;
+        };
+
+        reader.readAsDataURL(imagenSeleccionada);
+    }
+});
+
+
+
 
 
 
