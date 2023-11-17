@@ -150,7 +150,7 @@ function actualizarDatos() {
     var contexto = canvas.getContext('2d');
 
     // Limpiar  canvas
-    contexto.drawImage(imagen, 0, 0, canvas.width, canvas.height);
+    contexto.clearRect(0, 0, canvas.width, canvas.height);
 
     // Tamaño de fuente relativo al ancho de la imagen
     var fontSize = 12; // Tamaño de la fuente deseado, puedes ajustarlo
