@@ -59,6 +59,7 @@
           messagingSenderId: "673479424832",
           appId: "1:673479424832:web:bbe4fa209631fcf51718a5"
         };
+        const app = firebase.initializeApp(firebaseConfig);
 
         window.onload = function() {
             localStorage.clear();
@@ -83,7 +84,6 @@
         function datosEnviadosIniciarSesion() {
           const mail = document.getElementById('mail2').value;
             const contrasenia = document.getElementById('contra2').value;
-            const app = firebase.initializeApp(firebaseConfig);
           const db = firebase.firestore();
           const usuariosRef = db.collection('Usuarios');
           document.getElementById("todo").style.display= "none";
@@ -132,8 +132,6 @@
             const contrasenia = document.getElementById('contra').value;
             document.getElementById("todo").style.display= "none";
             document.getElementById("load").style.display= "block";
-
-            const app = firebase.initializeApp(firebaseConfig);
             const db = firebase.firestore();
             
             if (contrasenia == "") {
