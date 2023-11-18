@@ -10,6 +10,7 @@
 
 </head>
 <body>
+  <div id="todo">
     <div class="wrapper fadeInDown">
         <div id="formContent">
           <!-- Tabs Titles -->
@@ -20,9 +21,11 @@
       
           <!-- Login Form -->
           <form id="login">
-            <input type="text" id="login" class="fadeIn second" name="login" placeholder="mail">
-            <input type="text" id="password" class="fadeIn third" name="login" placeholder="contraseña">
-            <input type="button" class="fadeIn fourth" value="Iniciar Sesion">
+            <input type="text" id="mail2" class="fadeIn second" name="login" placeholder="mail">
+            <a id="mailError2" style="color: red; font-size: x-small;display: none;">El mail no existe</a>
+            <input type="text" id="contra2" class="fadeIn third" name="login" placeholder="contraseña">
+            <a id="contraError2" style="color: red; font-size: x-small;display: none;">La contraseña es incorrecta</a>
+            <input type="button" class="fadeIn fourth" value="Iniciar Sesion" onclick="datosEnviadosIniciarSesion()">
           </form>
       
           <form id="registrar" style="display: none;">
@@ -41,7 +44,11 @@
       
         </div>
       </div>
-
+    </div>
+    <div id="load" class="load" style="display: none;">
+      <div class="progress">
+        <div class="loader" id="loader">Loading...</div>
+            </div>  </div>
 
         <script>
                     const firebaseConfig = {
@@ -73,15 +80,66 @@
             document.getElementById("login").style.display= "block";
         }
 
+        function datosEnviadosIniciarSesion() {
+          const mail = document.getElementById('mail2').value;
+            const contrasenia = document.getElementById('contra2').value;
+            const app = firebase.initializeApp(firebaseConfig);
+          const db = firebase.firestore();
+          const usuariosRef = db.collection('Usuarios');
+          document.getElementById("todo").style.display= "none";
+          document.getElementById("load").style.display= "block";
+          
+            usuariosRef.where('mail', '==', mail)
+              .get()
+              .then((querySnapshot) => {
+                if (!(querySnapshot.size > 0)) {
+                  console.log("El usuario no existe");
+                  document.getElementById("mailError2").style.display = "block";
+                  document.getElementById("todo").style.display= "block";
+                  document.getElementById("load").style.display= "none";
+                } else {
+                  usuariosRef.where('contrasenia', '==', contrasenia)
+                    .get()
+                    .then((querySnapshot) => {
+                      if (!(querySnapshot.size > 0)) {
+                        console.log("Contraseña incorrecta");
+                        document.getElementById("contraError2").style.display = "block";
+                        document.getElementById("mailError2").style.display = "none";
+                        document.getElementById("todo").style.display= "block";
+                        document.getElementById("load").style.display= "none";
+                      } else {
+                        console.log("entro");
+                        document.getElementById("mailError2").style.display = "none";
+                        document.getElementById("contraError2").style.display = "none";
+                        localStorage.setItem("mail", mail);
+                        window.location.href = "vistaPreviaDni.html";
+                      }
+                    })
+                    .catch((error) => {
+                      console.error('Error al consultar la base de datos:', error);
+                    });
+                }
+              })
+              .catch((error) => {
+                console.error('Error al consultar la base de datos:', error);
+              });    
+
+
+        }
+
         function datosEnviadosRegistrar() {
             const mail = document.getElementById('mail').value;
             const contrasenia = document.getElementById('contra').value;
+            document.getElementById("todo").style.display= "none";
+            document.getElementById("load").style.display= "block";
 
             const app = firebase.initializeApp(firebaseConfig);
             const db = firebase.firestore();
             
             if (contrasenia == "") {
                  document.getElementById("contraError").style.display = "block";
+                 document.getElementById("todo").style.display= "block";
+              document.getElementById("load").style.display= "none";
 
             }else{
                 const docData = {
@@ -95,6 +153,11 @@
             .get()
             .then((querySnapshot) => {
             if (querySnapshot.size > 0) {
+              document.getElementById("mailError").style.display = "block";
+              document.getElementById("contraError").style.display = "none";
+              document.getElementById("todo").style.display= "block";
+            document.getElementById("load").style.display= "none";
+
                   console.log("El correo ya existe en la base de datos");
          } else {
             usuariosRef.where('mail', '==', mail)
@@ -103,7 +166,6 @@
                 if (querySnapshot.size > 0) {
                     document.getElementById("mailError").style.display = "block";
 
-                  console.log("El mail ya existe en la base de datos");
                   document.getElementById("contraError").style.display = "none";
 
                 } else {
@@ -342,9 +404,9 @@
           -moz-animation-fill-mode:forwards;
           animation-fill-mode:forwards;
         
-          -webkit-animation-duration:1s;
-          -moz-animation-duration:1s;
-          animation-duration:1s;
+          -webkit-animation-duration:0.3s;
+          -moz-animation-duration:0.3s;
+          animation-duration:0.3s;
         }
         
         .fadeIn.first {
@@ -354,21 +416,21 @@
         }
         
         .fadeIn.second {
-          -webkit-animation-delay: 0.6s;
-          -moz-animation-delay: 0.6s;
-          animation-delay: 0.6s;
+          -webkit-animation-delay: 0.3s;
+          -moz-animation-delay: 0.3s;
+          animation-delay: 0.3s;
         }
         
         .fadeIn.third {
-          -webkit-animation-delay: 0.8s;
-          -moz-animation-delay: 0.8s;
-          animation-delay: 0.8s;
+          -webkit-animation-delay: 0.3s;
+          -moz-animation-delay: 0.3s;
+          animation-delay: 0.3s;
         }
         
         .fadeIn.fourth {
-          -webkit-animation-delay: 1s;
-          -moz-animation-delay: 1s;
-          animation-delay: 1s;
+          -webkit-animation-delay: 0.3s;
+          -moz-animation-delay: 0.3s;
+          animation-delay: 0.3s;
         }
         
         /* Simple CSS3 Fade-in Animation */
@@ -405,6 +467,68 @@
         
         * {
           box-sizing: border-box;
-        }</style>
+        }
+        .loader {
+  font-size: 10px;
+  margin: 30% auto;
+  text-indent: -9999em;
+  width: 11em;
+  height: 11em;
+  border-radius: 50%;
+  background: #ffffff;
+  background: -moz-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+  background: -webkit-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+  background: -o-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+  background: -ms-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+  background: linear-gradient(to right, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+  position: relative;
+  -webkit-animation: load3 1.4s infinite linear;
+  animation: load3 1.4s infinite linear;
+}
+.loader:before {
+  width: 50%;
+  height: 50%;
+  background: #FFF;
+  border-radius: 100% 0 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+}
+.loader:after {
+  background: #0dcecb;
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  content: '';
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+@-webkit-keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+        </style>
 </body>
 </html>

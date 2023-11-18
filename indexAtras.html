@@ -201,6 +201,20 @@ window.onload = function() {
 } else {
     renglon3 = renglon3.substring(0, 30); // Si tiene más de 30 caracteres, cortar en el carácter 30
 }
+if (renglon2.length < 30) {
+    while (renglon2.length < 30) {
+        renglon2 += "<";
+    }
+} else {
+    renglon2 = renglon3.substring(0, 30); // Si tiene más de 30 caracteres, cortar en el carácter 30
+}
+if (renglon1.length < 30) {
+    while (renglon1.length < 30) {
+        renglon1 += "<";
+    }
+} else {
+    renglon1 = renglon3.substring(0, 30); // Si tiene más de 30 caracteres, cortar en el carácter 30
+}
    
 
     contexto.fillText(renglon1, xApellido, yApellido);
