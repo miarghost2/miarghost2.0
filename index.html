@@ -6,7 +6,11 @@
     <title>Formulario de DNI</title>
     <link rel="stylesheet" href="https://use.typekit.net/hdq5bvf.css">    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
 
     <style>
 @font-face {
@@ -60,10 +64,39 @@
             box-sizing: border-box;
             margin-bottom: 10px;
         }
+        #canvas {
+      border: 4px solid black;
+    }
+    
+    #controls {
+      margin-top: 10px;
+    }
+    .load{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+  /*change these sizes to fit into your project*/
+  width:100px;
+  height:100px;
+}
+.load hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
+
+.load :first-child{background:#6dcfbd;animation-delay:-1.5s}
+.load :nth-child(2){background:#3af6e6;animation-delay:-1s}
+.load :nth-child(3){background:rgb(67, 225, 253);animation-delay:-0.5s}
+.load :last-child{background:#49a5c9}
+
+@keyframes spin{
+  0%,100%{transform:translate(0)}
+  25%{transform:translate(160%)}
+  50%{transform:translate(160%, 160%)}
+  75%{transform:translate(0, 160%)}
+}
     </style>
 </head>
 <body>
 <br>    
+<div id="load" class="load" style="display: none;">
+  <hr/><hr/><hr/><hr/>
+</div>
+<div id="todo">
 <div id="dni-container">
         <img id="dni-image" src="dni.jpg" alt="DNI">
         <canvas id="datos-overlay"></canvas>
@@ -105,12 +138,60 @@
     <form id="dni-form2" style="display: none;">
         <label for="imagenDNI">Imagen para el DNI:</label>
         <input type="file" id="imagenDNI" name="imagenDNI">
+        <br>
+        <button type="button" onclick="avanzar2()">SIGUIENTE</button>
     </form>
 
+    <form id="dni-form3" style="display: none;">
+      <canvas id="canvas" width="400" height="300"></canvas>
+      <div id="controls">
+        <button type="button" onclick="limpiarCanvas()">Limpiar</button>
+        <button type="button" onclick="guardarImagen()">Guardar</button>
+      </div>
+      <button type="button" onclick="avanzar3()">SIGUIENTE</button>
+    </form>
+
+    <form id="dni-form4" style="display: none;">
+      <button><a href="indexAtras.html">EDITAR PARTE DE ATRAS</a> </button>
+    </form>
+
+      <canvas style="display: none;" id="codigoQR" width="160" height="37"></canvas>
+
+    <!-- El resto de tu código HTML -->
+    <div style='text-align: center;'>
+        <img style="display: none;"  alt='Barcode Generator TEC-IT'
+             src='https://barcode.tec-it.com/barcode.ashx?data=neizi+neizi+47859+123&code=PDF417&translate-esc=on'/>
+    </div>
+  </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <script>
 
+var imagen2;
+var apellido;
+var nombre;
+var sexo;
+var ejemplar;
+var nacionalidad;
+var nacimiento;
+var emision;
+var vencimiento; 
+var tramite;
+var dni;
+var nacionalidad;
 
 window.onload = function() {
 
@@ -129,26 +210,76 @@ window.onload = function() {
 
 };
 
+function guardarImagenQREnStorage() {
+  const firebaseConfig = {
+          apiKey: "AIzaSyC-VuSbZtYwfeB8PfbG_py75yGu9OTcRIQ",
+          authDomain: "miargentina-76248.firebaseapp.com",
+          projectId: "miargentina-76248",
+          storageBucket: "miargentina-76248.appspot.com",
+          messagingSenderId: "673479424832",
+          appId: "1:673479424832:web:bbe4fa209631fcf51718a5"
+        };
+        firebase.initializeApp(firebaseConfig);
 
+// Obtener el nombre del usuario desde localStorage
+const username = localStorage.getItem('mail');
 
+// Obtener la URL de la imagen desde el elemento con ID "dni-image"
+const imageURL = document.getElementById("dni-image").src;
+
+if (imageURL && username) {
+  document.getElementById("load").style.display = "block";
+    document.getElementById("todo").style.display = "none";
+  // Realizar una solicitud para obtener la imagen como Blob
+  fetch(imageURL)
+    .then(response => response.blob())
+    .then(blob => {
+      // Crear una referencia al almacenamiento de Firestore
+      const storageRef = firebase.storage().ref();
+
+      // Crear una referencia a la carpeta del usuario
+      const userFolderRef = storageRef.child(`${username}/`);
+
+      // Subir el archivo con el nombre dniFrente
+      const dniFrenteRef = userFolderRef.child('dniFrente');
+
+      // Subir el archivo Blob al almacenamiento de Firestore
+      dniFrenteRef.put(blob)
+        .then((snapshot) => {
+          console.log('Archivo subido correctamente:', snapshot);
+          window.location.href = "indexAtras.html"
+        })
+        .catch((error) => {
+          console.error('Error al subir el archivo:', error);
+        });
+    })
+    .catch((error) => {
+      console.error('Error al obtener la imagen como Blob:', error);
+    });
+} else {
+  console.error('No se encontró la URL de la imagen o el nombre de usuario en el localStorage.');
+}
+}
 
 
 // Llama a la función una vez al cargar la página para verificar la posición inicial
 
 
 function actualizarDatos() {
-    var apellido = document.getElementById('apellido').value.toUpperCase();
-    var nombre = document.getElementById('nombre').value.toUpperCase();
-    var sexo = document.getElementById('sexo').value.toUpperCase();
-    var ejemplar = document.getElementById('ejemplar').value.toUpperCase();
-    var nacionalidad = document.getElementById('nacionalidad').value.toUpperCase();
-    var nacimiento = document.getElementById('nacimiento').value.toUpperCase();
-    var emision = document.getElementById('emision').value.toUpperCase();
-    var vencimiento = document.getElementById('vencimiento').value.toUpperCase();
-    var tramite = document.getElementById('tramite').value.toUpperCase();
-    var dni = document.getElementById('dni').value.toUpperCase();
-    var nacionalidad = document.getElementById('nacionalidad').value.toUpperCase();
+     apellido = document.getElementById('apellido').value.toUpperCase();
+     nombre = document.getElementById('nombre').value.toUpperCase();
+     sexo = document.getElementById('sexo').value.toUpperCase();
+     ejemplar = document.getElementById('ejemplar').value.toUpperCase();
+     nacionalidad = document.getElementById('nacionalidad').value.toUpperCase();
+     nacimiento = document.getElementById('nacimiento').value.toUpperCase();
+     emision = document.getElementById('emision').value.toUpperCase();
+     vencimiento = document.getElementById('vencimiento').value.toUpperCase();
+     tramite = document.getElementById('tramite').value.toUpperCase();
+     dni = document.getElementById('dni').value.toUpperCase();
+     nacionalidad = document.getElementById('nacionalidad').value.toUpperCase();
     var imagenDni = document.getElementById('imagenDNI');
+
+
 
 
     // conseguir  canvas y su contexto
@@ -234,6 +365,41 @@ function actualizarDatos() {
     // Configurar fuente en negrita solo para el número de DNI
     contexto.font = 'bold ' + 16 + 'px ROBOO, Arial';
     contexto.fillText(dni, xdni, ydni);
+
+
+
+    const barcodeImg = document.querySelector('img[alt="Barcode Generator TEC-IT"]');
+  const barcodeURL = barcodeImg.src;
+
+  const barcodeImage = new Image();
+  barcodeImage.onload = function() {
+    const canvasQR = document.getElementById('codigoQR'); // Obtener el canvas del código QR
+    const contexto = canvasQR.getContext('2d');
+
+    // Dibujar la imagen del código de barras en el canvas
+    contexto.drawImage(barcodeImage, 0, 0, canvasQR.width, canvasQR.height);
+
+    // Generar un código QR basado en los datos de la imagen del código de barras
+    const qr = QRCode.generatePNG(canvasQR, {
+      ecclevel: 'M', // Nivel de corrección de errores (M, L, H, Q)
+      format: 'image/png' // Formato de salida del QR
+    });
+
+    const nuevaImagen = new Image();
+    nuevaImagen.onload = function() {
+      const datosOverlayCanvas = document.getElementById('datos-overlay');
+      const contexto = datosOverlayCanvas.getContext('2d');
+
+      // Dibujar el código QR en el canvas datos-overlay
+      contexto.drawImage(nuevaImagen, 10, 10); // Ajusta las coordenadas según tu diseño
+    };
+
+    nuevaImagen.src = qr; // Utilizar el QR generado como fuente de la imagen
+  };
+
+  barcodeImage.src = barcodeURL; // Cargar la imagen del código de barras
+
+
  }
 
 
@@ -282,6 +448,17 @@ document.getElementById('imagenDNI').addEventListener('change', function(event) 
 
 
 document.getElementById('avanzar').addEventListener('click', function() {
+  localStorage.setItem('apellido', apellido);
+    localStorage.setItem('nombre', nombre);
+    localStorage.setItem('sexo', sexo);
+    localStorage.setItem('ejemplar', ejemplar);
+    localStorage.setItem('nacionalidad', nacionalidad);
+    localStorage.setItem('nacimiento', nacimiento);
+    localStorage.setItem('emision', emision);
+    localStorage.setItem('vencimiento', vencimiento);
+    localStorage.setItem('tramite', tramite);
+    localStorage.setItem('dni', dni);
+
     document.getElementById("dni-form2").style.display = "block";
     html2canvas(document.getElementById('dni-container')).then(function(canvas) {
       var img = canvas.toDataURL('image/png');
@@ -299,14 +476,209 @@ document.getElementById('avanzar').addEventListener('click', function() {
      dni = document.getElementById('dni').value= " ";
      nacionalidad = document.getElementById('nacionalidad').value= " ";
      actualizarDatos();
+
+     // Crear un nuevo canvas para el código QR
+     const qrCanvas = document.createElement('canvas');
+     qrCanvas.width = 200; // Ancho del canvas del código QR
+     qrCanvas.height = 50; // Alto del canvas del código QR
+     const qrContext = qrCanvas.getContext('2d');
+
+     // Obtener la imagen del código QR
+     const barcodeImg = document.querySelector('img[alt="Barcode Generator TEC-IT"]');
+     const barcodeURL = barcodeImg.src;
+     const barcodeImage = new Image();
+
+     barcodeImage.onload = function() {
+       // Dibujar la imagen del código QR en el canvas del código QR
+       qrContext.drawImage(barcodeImage, 0, 0, qrCanvas.width, qrCanvas.height);
+
+       // Crear un nuevo canvas para la superposición
+       const overlayCanvas = document.createElement('canvas');
+       overlayCanvas.width = canvas.width;
+       overlayCanvas.height = canvas.height;
+       const overlayContext = overlayCanvas.getContext('2d');
+
+       // Dibujar la imagen del contenedor
+       overlayContext.drawImage(canvas, 0, 0);
+
+       // Dibujar el canvas del código QR sobre la imagen del contenedor
+       overlayContext.drawImage(qrCanvas, 0, 0);
+
+       // Convertir el canvas resultante a una imagen
+       var finalImg = overlayCanvas.toDataURL('image/png');
+       link.href = finalImg;
+       link.download = 'documento_identidad.png';
+       link.click();
+     };
+
+     barcodeImage.src = barcodeURL; // Cargar la imagen del código de barras
+
+     
     });
-  });
+});
+
+ 
+ 
+ 
+function avanzar2() {
+  document.getElementById("dni-form2").style.display = "none";
+  document.getElementById("dni-form3").style.display = "block";
+  html2canvas(document.getElementById('dni-container')).then(function(canvas) {
+    var img = canvas.toDataURL('image/png');
+      var link = document.createElement('a');
+      document.getElementById("dni-image").src = img;
+  })
+}
+
+function avanzar3() {
+  document.getElementById("dni-form3").style.display = "none";
+  document.getElementById("dni-form4").style.display = "block";
+   // Tomar la imagen del código QR
+   var tramiteSinEspaciosYPuntos = localStorage.getItem('tramite').replace(/[\s.]+/g, '');
+var apellidoSinEspaciosYPuntos = localStorage.getItem('apellido').replace(/[\s.]+/g, '');
+var nombreSinEspaciosYPuntos = localStorage.getItem('nombre').replace(/[\s.]+/g, '');
+var sexoSinEspaciosYPuntos = localStorage.getItem('sexo').replace(/[\s.]+/g, '');
+var dniSinEspaciosYPuntos = localStorage.getItem('dni').replace(/[\s.]+/g, '');
+var ejemplarSinEspaciosYPuntos = localStorage.getItem('ejemplar').replace(/[\s.]+/g, '');
+var nacimientoSinEspaciosYPuntos = localStorage.getItem('nacimiento').replace(/[\s.]+/g, '');
+var emisionSinEspaciosYPuntos = localStorage.getItem('emision').replace(/[\s.]+/g, '');
+
+   const barcodeImg = document.querySelector('img[alt="Barcode Generator TEC-IT"]');
+   barcodeImg.src = 'https://barcode.tec-it.com/barcode.ashx?data='+tramiteSinEspaciosYPuntos+'@'+apellidoSinEspaciosYPuntos+'@'+nombreSinEspaciosYPuntos+'@'+sexoSinEspaciosYPuntos+'@'+dniSinEspaciosYPuntos+'@'+ejemplarSinEspaciosYPuntos+'@'+nacimientoSinEspaciosYPuntos+'@'+emisionSinEspaciosYPuntos+'&code=PDF417&translate-esc=on'; 
+  const barcodeURL = barcodeImg.src;
+
+  const barcodeImage = new Image();
+  barcodeImage.onload = function() {
+    const canvasQR = document.getElementById('codigoQR'); // Obtener el canvas del código QR
+    const contexto = canvasQR.getContext('2d');
+
+    // Dibujar la imagen del código de barras en el canvas
+    contexto.drawImage(barcodeImage, 0, 0, canvasQR.width, canvasQR.height);
+
+    // Obtener el canvas donde queremos superponer la imagen del código QR
+    const datosOverlayCanvas = document.getElementById('datos-overlay');
+    const datosOverlayContext = datosOverlayCanvas.getContext('2d');
+
+    // Dibujar la imagen del código QR en el canvas existente
+    datosOverlayContext.drawImage(canvasQR, 218, 204);
+  };
+
+  barcodeImage.src = barcodeURL; // Cargar la imagen del código de barras
+  guardarImagenQREnStorage();
+
+  html2canvas(document.getElementById('dni-container')).then(function(canvas) {
+    var img = canvas.toDataURL('image/png');
+      var link = document.createElement('a');
+      document.getElementById("dni-image").src = img;
+  })
+
+}
 
 
 
 
+  const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 
 
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+
+// Eventos táctiles
+canvas.addEventListener('touchstart', iniciarDibujoTouch);
+canvas.addEventListener('touchmove', dibujarTouch);
+canvas.addEventListener('touchend', detenerDibujo);
+
+// Eventos de ratón
+canvas.addEventListener('mousedown', iniciarDibujo);
+canvas.addEventListener('mousemove', dibujar);
+canvas.addEventListener('mouseup', detenerDibujo);
+
+function iniciarDibujo(event) {
+  isDrawing = true;
+  const { offsetX, offsetY } = event;
+  lastX = offsetX;
+  lastY = offsetY;
+}
+
+function iniciarDibujoTouch(event) {
+  event.preventDefault();
+  isDrawing = true;
+  const touch = event.touches[0];
+  const { clientX, clientY } = touch;
+  const rect = canvas.getBoundingClientRect();
+  lastX = clientX - rect.left;
+  lastY = clientY - rect.top;
+  dibujarEnCanvas(lastX, lastY);
+}
+
+function dibujar(event) {
+  if (!isDrawing) return;
+  dibujarEnCanvas(event.offsetX, event.offsetY);
+}
+
+function dibujarTouch(event) {
+  event.preventDefault();
+  if (!isDrawing) return;
+  const touch = event.touches[0];
+  const { clientX, clientY } = touch;
+  const rect = canvas.getBoundingClientRect();
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
+  dibujarEnCanvas(x, y);
+}
+
+function detenerDibujo() {
+  isDrawing = false;
+}
+
+function dibujarEnCanvas(x, y) {
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = 'black'; // color del trazo
+
+  ctx.beginPath();
+  ctx.moveTo(lastX, lastY);
+  ctx.lineTo(x, y);
+  ctx.stroke();
+
+  lastX = x;
+  lastY = y;
+
+}
+
+function limpiarCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+
+
+function guardarImagen() {
+  imagen2 = canvas.toDataURL('image/png');
+  const link = document.createElement('a');
+
+  const nuevaImagen = new Image();
+  nuevaImagen.onload = function() {
+    const canvasAncho = 400; // Ancho deseado para el canvas
+    const canvasAlto = 250; // Alto deseado para el canvas
+    const x = 285; // Nueva coordenada X
+    const y = 110; // Nueva coordenada Y
+    const anchoImagen = 90; // Nuevo ancho de la imagen
+    const altoImagen = 82; // Nuevo alto de la imagen
+
+    const datosOverlayCanvas = document.getElementById('datos-overlay');
+    datosOverlayCanvas.width = canvasAncho;
+    datosOverlayCanvas.height = canvasAlto;
+
+    const contexto = datosOverlayCanvas.getContext('2d');
+
+    contexto.clearRect(0, 0, datosOverlayCanvas.width, datosOverlayCanvas.height); // Limpiar canvas
+    contexto.drawImage(nuevaImagen, x, y, anchoImagen, altoImagen); // Dibujar imagen
+  };
+
+  nuevaImagen.src = imagen2; // Utilizar la imagen guardada anteriormente en imagen2
+}
 
     </script>
 </body>
