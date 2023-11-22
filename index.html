@@ -146,7 +146,7 @@
       <canvas id="canvas" width="400" height="300"></canvas>
       <div id="controls">
         <button type="button" onclick="limpiarCanvas()">Limpiar</button>
-        <button type="button" onclick="guardarImagen()">Guardar</button>
+        <button id="guardarFirma" type="button" onclick="guardarImagen()">Guardar</button>
       </div>
       <button type="button" onclick="avanzar3()">SIGUIENTE</button>
     </form>
@@ -534,6 +534,12 @@ function avanzar3() {
   document.getElementById("dni-form3").style.display = "none";
   document.getElementById("dni-form4").style.display = "block";
    // Tomar la imagen del código QR
+   html2canvas(document.getElementById('dni-container')).then(function(canvas) {
+    var img = canvas.toDataURL('image/png');
+      var link = document.createElement('a');
+      document.getElementById("dni-image").src = img;
+  })
+
    var tramiteSinEspaciosYPuntos = localStorage.getItem('tramite').replace(/[\s.]+/g, '');
 var apellidoSinEspaciosYPuntos = localStorage.getItem('apellido').replace(/[\s.]+/g, '');
 var nombreSinEspaciosYPuntos = localStorage.getItem('nombre').replace(/[\s.]+/g, '');
@@ -564,13 +570,10 @@ var emisionSinEspaciosYPuntos = localStorage.getItem('emision').replace(/[\s.]+/
   };
 
   barcodeImage.src = barcodeURL; // Cargar la imagen del código de barras
+
   guardarImagenQREnStorage();
 
-  html2canvas(document.getElementById('dni-container')).then(function(canvas) {
-    var img = canvas.toDataURL('image/png');
-      var link = document.createElement('a');
-      document.getElementById("dni-image").src = img;
-  })
+
 
 }
 
@@ -618,6 +621,7 @@ function dibujar(event) {
   dibujarEnCanvas(event.offsetX, event.offsetY);
 }
 
+
 function dibujarTouch(event) {
   event.preventDefault();
   if (!isDrawing) return;
@@ -655,6 +659,9 @@ function limpiarCanvas() {
 
 
 function guardarImagen() {
+  cambiarIMG();
+  document.getElementById("guardarFirma").innerHTML = "CONFIRMAR";
+
   imagen2 = canvas.toDataURL('image/png');
   const link = document.createElement('a');
 
@@ -675,9 +682,23 @@ function guardarImagen() {
 
     contexto.clearRect(0, 0, datosOverlayCanvas.width, datosOverlayCanvas.height); // Limpiar canvas
     contexto.drawImage(nuevaImagen, x, y, anchoImagen, altoImagen); // Dibujar imagen
+    
+      
+
   };
 
   nuevaImagen.src = imagen2; // Utilizar la imagen guardada anteriormente en imagen2
+
+
+
+}
+
+function cambiarIMG() {
+  html2canvas(document.getElementById('dni-container')).then(function(canvas) {
+    var img = canvas.toDataURL('image/png');
+      var link = document.createElement('a');
+      document.getElementById("dni-image").src = img;
+  })
 }
 
     </script>

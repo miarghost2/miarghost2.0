@@ -4,59 +4,406 @@
   <meta charset="UTF-8">
   <title>Navbar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+  
 </head>
 <body>
 
-  <nav class="navbar">
-    <div class="menu-icon">
+  <nav  class="navbar">
+    <div id="tresRayas" style="display: block;" class="menu-icon">
       <div class="bar"></div>
       <div class="bar"></div>
       <div class="bar"></div>
     </div>
+    <img onclick="abrirMenu1()" id="flechaAtras" src="imgMenu/9.JPG" style="display: none;width: 13%;margin-left: -30px;"  alt="">
     <div class="logo">
+      <div style="display: block;" id="tituloMiargentina">
       <span class="mi">mi</span><span class="argentina">Argentina</span>
+      </div>
+      <p id="tituloDni" style="color: white;display: block;font-size: 24px;margin-bottom: 0px;margin-top: 0px;display: none;">DNI DIGITAL</p>
     </div>
   </nav>
-
+<div id="menu1" style="display: block;">
   <div class="grid-container">
     <div class="grid-item">
       <div class="content">
-        <img src="imgMenu/1.png" alt="Imagen 1" class="circle-image">
+        <img src="imgMenu/1.png" alt="Imagen 1" onclick="abrirMenu2()" class="circle-image2 ">
         <p id="textoGrid">Mis documentos</p>
       </div>
     </div>
     <div class="grid-item">
       <div class="content">
-        <img src="imgMenu/2.png" alt="Imagen 2" class="circle-image">
+        <img src="imgMenu/2.png" alt="Imagen 2" class="circle-image ">
         <p id="textoGrid">Mis vehiculos</p>
       </div>
     </div>
         <div class="grid-item">
           <div class="content">
-            <img src="imgMenu/3.png" alt="Imagen 3" class="circle-image">
+            <img src="imgMenu/3.png" alt="Imagen 3" class="circle-image2 ">
             <p id="textoGrid">Mi salud</p>
           </div>
         </div>
         <div class="grid-item">
           <div class="content">
-            <img src="imgMenu/4.png" alt="Imagen 4" class="circle-image">
+            <img src="imgMenu/4.png" alt="Imagen 4" class="circle-image ">
             <p id="textoGrid">Mi trabajo</p>
           </div>
         </div>
     <div class="grid-item">
       <div class="content">
-        <img src="imgMenu/5.png" alt="Imagen 5" class="circle-image">
+        <img src="imgMenu/5.png" alt="Imagen 5" class="circle-image ">
         <p id="textoGrid">Mis turnos</p>
       </div>
     </div>
     <div class="grid-item">
       <div class="content">
-        <img src="imgMenu/6.png" alt="Imagen 6" class="circle-image">
+        <img src="imgMenu/6.png" alt="Imagen 6" class="circle-image2">
         <p id="textoGrid">Mis tramites</p>
       </div>
     </div>
 </div>
+</div>
+
+
+
+
+ 
+<div id="menu2" style="display: none;">
+  <div class="grid-container-3col" >
+    <div class="grid-item-3col" id="abrir">
+      <div class="content-3col"  onclick="abrir1()">
+        <img src="imgMenu/1.png"  alt="Imagen 1" class="circle-image-3col">
+        <p><strong>Certificado de antecedentes penales</strong></p>
+      </div>
+    </div>
+    <div class="grid-item-3col" id="abrir1" style="display: none;">
+    <div class="content-3col">
+      <div  class="content-3col" >
+      <!-- Contenido adicional a mostrar -->
+      <p> Si tenes un certificado de antecedentes penales emitido en el ultimo año podes descargarlo.</p>
+    </div>
+  </div>
+  <button style="background-color: #37bbec; color: white; padding: 14px 28px; font-size: 16px; cursor: pointer; border: none; text-align: center; display: inline-block; border-radius: 25px;">Descargar certificado</button>
+
+  </div>
+
+
+
+    <div class="grid-item-3col" id="abrir3">
+      <div class="content-3col"  onclick="abrir2()" >
+        <img src="imgMenu/1.png" alt="Imagen 2" class="circle-image-3col">
+        <p><strong>Documento Nacional de Identidad (DNI)</strong></p>
+      </div>
+    </div>
+    <div class="grid-item-3col" id="abrir2" style="display: none;">
+      <div class="content-3col">
+        <div  class="content-3col" >
+          <div class="grid-container2" style="text-align: center;">
+            <div class="item1" style="font-size:90%;">Documento</div>
+            <div class="item2" style="font-size:90%;">Fecha de vencimiento</div>
+            <p  style="margin-top: 0%; font-size: 90%;"><strong id="dniText">dni</strong></p>
+            <p style="margin-top: 0%; font-size: 90%;"><strong>-</strong></p>
+            <div class="item3" style="font-size:90%;">Nombre</div>
+            <div class="item4" style="font-size:90%;">Apellido</div>
+            <p  style="margin-top: 0%; font-size: 90%;"><strong id="nombreText">nombre</strong></p>
+            <p  style="margin-top: 0%; font-size: 90%;"><strong id="apellidoText">apellido</strong></p>
+
+          </div>
+        </div>
+    </div>
+    <button onclick="abrirMenu3()" style="background-color: green; color: white; padding: 14px 28px; font-size: 16px; cursor: pointer; border: none; text-align: center; display: inline-block; border-radius: 25px;">VER DNI DIGITAL</button>
+
+    </div>
+
+
+
+    <div class="grid-item-3col" id="abrir5">
+      <div class="content-3col" onclick="abrir3()">
+        <img src="imgMenu/1.png" alt="Imagen 3" class="circle-image-3col">
+        <p><strong>CUIL</strong></p>
+      </div>
+    </div>
+    <div class="grid-item-3col" id="abrir4" style="display: none;">
+      <div class="content-3col">
+        <div  class="content-3col" >
+          <div class="grid-container2" style="text-align: center;">
+            <div class="item1" style="font-size:90%;">Numero de CUIL</div>
+            <div class="item2" style="font-size:90%;"></div>
+            <p  style="margin-top: 0%; font-size: 90%;"><strong id="dniText2">dni</strong></p>
+            <p style="margin-top: 0%; font-size: 90%;"><strong></strong></p>
+            <div class="item3" style="font-size:90%;">Nombre</div>
+            <div class="item4" style="font-size:90%;">Apellido</div>
+            <p  style="margin-top: 0%; font-size: 90%;"><strong id="nombreText2">nombre</strong></p>
+            <p  style="margin-top: 0%; font-size: 90%;"><strong id="apellidoText2">apellido</strong></p>
+
+          </div>
+      </div>
+    </div>
+    <button style="background-color: #37bbec; color: white; padding: 14px 28px; font-size: 16px; cursor: pointer; border: none; text-align: center; display: inline-block; border-radius: 25px;">DESCARGAR CONSTANCIA DE CUIL</button>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div id="menu3" style="display: none;">
+  <div id="dni-container" id="dni">
+    <section class="u-clearfix u-custom-color-3 Bu-section-1" id="sec-4c9c">
+      <div class="u-clearfix u-sheet Bu-sheet-1">
+        <img class="u-image u-image-default Bu-image-1" src="images/ultimaActualizacion.PNG" alt="" data-image-width="362" data-image-height="30">
+      </div>
+    </section>
+    <section class="u-clearfix Bu-section-2" id="sec-8eb5">
+      <div class="u-clearfix u-sheet Bu-sheet-1">
+        <div class ="tarjeta">
+          <img id="imagen1" class="u-image u-image-default Bu-image-1 dni-image" src="" data-image-width="900" data-image-height="578" onclick="cambiarImagen()">
+          <img id="imagen2" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/2.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
+          <img id="imagen3" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/3.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
+          <img id="imagen4" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/4.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
+          <img id="imagen5" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/5.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
+          <img id="imagen6" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/6.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
+          <img id="imagen7" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/7.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
+          <img id="imagen8" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/8.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
+          <img id="imagen9" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/9.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
+          <img id="imagen10" class="u-image u-image-default Bu-image-1 dni-image" src=""  data-image-width="490" data-image-height="312" style="display: none;" onclick="cambiarImagen2()">
+        </div>
+        <img class="u-image u-image-contain u-image-default Bu-image-2" src="images/detallesdni.PNG" alt="" data-image-width="314" data-image-height="99">
+      </div>
+    </section>
+    </div>
+    <div style="display: flex; align-items: center;">
+      <img src="imgMenu/7.png" style="width: 60px;height: 50px;"> <!-- Ajusta el tamaño según lo necesites -->
+      <p style="margin-left: 0px;">Ver detalle de mi DNI Digital</p>
+    </div>
+    <br>
+    <div style="display: flex; align-items: center;">
+      <img src="imgMenu/8.png" style="width: 50px;height: 50px;padding-top: 10px;"> <!-- Ajusta el tamaño según lo necesites -->
+      <p style="margin-left: 5px;">Mesa de ayuda</p>
+    </div>
+    
+</div>
+
+<script>
+
+  function urlImagenes() {
+      const firebaseConfig = {
+            apiKey: "AIzaSyC-VuSbZtYwfeB8PfbG_py75yGu9OTcRIQ",
+            authDomain: "miargentina-76248.firebaseapp.com",
+            projectId: "miargentina-76248",
+            storageBucket: "miargentina-76248.appspot.com",
+            messagingSenderId: "673479424832",
+            appId: "1:673479424832:web:bbe4fa209631fcf51718a5"
+          };
+          firebase.initializeApp(firebaseConfig);
+          var username = localStorage.getItem("mail");
+          var nombreArchivo1 = "dniFrente";
+          var nombreArchivo2 = "dniAtras";
+  
+    // Obtener una referencia a la carpeta del usuario
+    const storageRef = firebase.storage().ref().child(username);
+  
+    // Obtener las referencias de los dos archivos específicos
+    const archivoRef1 = storageRef.child(nombreArchivo1);
+    const archivoRef2 = storageRef.child(nombreArchivo2);
+  
+    // Obtener las URLs de descarga de los archivos específicos
+    archivoRef1.getDownloadURL()
+      .then((url1) => {
+        console.log('URL del archivo 1:', url1);
+        document.getElementById("imagen1").src = url1;
+        // Aquí puedes utilizar la URL del primer archivo como lo necesites
+      })
+      .catch((error) => {
+        console.error('Error al obtener la URL del archivo 1:', error);
+      });
+  
+    archivoRef2.getDownloadURL()
+      .then((url2) => {
+        console.log('URL del archivo 2:', url2);
+        document.getElementById("imagen10").src = url2;
+        // Aquí puedes utilizar la URL del segundo archivo como lo necesites
+      })
+      .catch((error) => {
+        console.error('Error al obtener la URL del archivo 2:', error);
+      });
+  }
+  
+  // Llamar a la función con el nombre de usuario y los nombres de los archivos deseados
+  urlImagenes();
+  
+  
+          var imagenes = ['imagen1', 'imagen2', 'imagen3','imagen4', 'imagen5','imagen6', 'imagen7','imagen8', 'imagen9','imagen10'];
+  var indiceActual = 0;
+  var tiempoEspera = 14; // en milisegundos
+  var primVez = true;
+  
+  
+  var startX, startY;
+  var lastChangeTime = 0; // variable para guardar el tiempo de la última llamada a cambiarImagen3()
+  
+  function handleTouchStart(event) {
+    startX = event.touches[0].pageX;
+    startY = event.touches[0].pageY;
+    }
+  
+  function handleTouchMove3(event) {
+    var currentTime = new Date().getTime(); // obtener el tiempo actual
+    if (currentTime - lastChangeTime < 100) { // no llamar a cambiarImagen3() si han pasado menos de 500 milisegundos
+      return;
+    }
+    lastChangeTime = currentTime; // actualizar el tiempo de la última llamada
+    var touchX = event.touches[0].pageX;
+    var touchY = event.touches[0].pageY;
+    var deltaX = startX - touchX;
+    var deltaY = startY - touchY;
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX > 20 ) {
+        cambiarImagen();
+  
+      }
+    }
+  }
+  function handleTouchMove4(event) {
+    var currentTime = new Date().getTime(); // obtener el tiempo actual
+    if (currentTime - lastChangeTime < 400) { // no llamar a cambiarImagen3() si han pasado menos de 500 milisegundos
+      return;
+    }
+    lastChangeTime = currentTime; // actualizar el tiempo de la última llamada
+    var touchX = event.touches[0].pageX;
+    var touchY = event.touches[0].pageY;
+    var deltaX = startX - touchX;
+    var deltaY = startY - touchY;
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX<20) {
+        cambiarImagen2();
+      }
+    }
+  }
+  
+  var myImage3 = document.getElementById("imagen1");
+        myImage3.addEventListener("touchstart", handleTouchStart, false);
+        myImage3.addEventListener("touchmove", handleTouchMove3, false);
+  
+        var myImage4 = document.getElementById("imagen10");
+        myImage4.addEventListener("touchstart", handleTouchStart, false);
+        myImage4.addEventListener("touchmove", handleTouchMove4, false);
+  
+  
+  
+  function cambiarImagen() {
+    if (indiceActual < imagenes.length) {
+      document.getElementById(imagenes[indiceActual]).style.display = 'none'; // ocultar la imagen actual
+      indiceActual++;
+      if (indiceActual == imagenes.length) {
+      document.getElementById(imagenes[imagenes.length-1]).style.display = 'inline'; // mostrar la siguiente imagen
+      return; // detener la secuencia si se llegó al final
+      }
+    document.getElementById(imagenes[indiceActual]).style.display = 'inline'; // mostrar la siguiente imagen
+    setTimeout(cambiarImagen, tiempoEspera);
+    } 
+  }
+  
+  
+  function cambiarImagen2() {
+    if (primVez==true) {
+    indiceActual = imagenes.length - 1;
+      primVez = false;
+    }
+    document.getElementById(imagenes[indiceActual]).style.display = 'none';
+    indiceActual--;
+    if (indiceActual < 0) {
+      document.getElementById(imagenes[0]).style.display = 'inline'; // mostrar la siguiente imagen
+      indiceActual= 0;
+      primVez = true;
+      return; // detener la secuencia si se llegó al final
+  
+    }
+    document.getElementById(imagenes[indiceActual]).style.display = 'inline';
+    setTimeout(cambiarImagen2, tiempoEspera);
+  }
+  
+  
+  
+
+  
+      </script>
+
+
+<script>
+  function abrir1() {
+    if (document.getElementById("abrir1").style.display == "block") {
+      document.getElementById("abrir1").style.display = "none";
+      document.getElementById("abrir").style.marginBottom = "10px";
+    } else{
+      document.getElementById("abrir1").style.display = "block";
+      document.getElementById("abrir").style.marginBottom = "0px";
+    }
+  }
+
+  function abrir2() {
+    if (document.getElementById("abrir2").style.display == "block") {
+      document.getElementById("abrir2").style.display = "none";
+      document.getElementById("abrir3").style.marginBottom = "10px";
+    } else{
+      document.getElementById("abrir2").style.display = "block";
+      document.getElementById("abrir3").style.marginBottom = "0px";
+    }
+  }
+
+  function abrir3() {
+    if (document.getElementById("abrir4").style.display == "block") {
+      document.getElementById("abrir4").style.display = "none";
+      document.getElementById("abrir5").style.marginBottom = "10px";
+    } else{
+      document.getElementById("abrir4").style.display = "block";
+      document.getElementById("abrir5").style.marginBottom = "0px";
+    }
+  }
+  function abrirMenu1() {
+    document.getElementById("menu1").style.display = "block";
+    document.getElementById("menu2").style.display = "none";
+    document.getElementById("menu3").style.display = "none";
+    document.getElementById("flechaAtras").style.display = "none";
+    document.getElementById("tresRayas").style.display = "block";
+
+  }
+
+  function abrirMenu2() {
+    document.getElementById("menu2").style.display = "block";
+    document.getElementById("menu1").style.display = "none";
+    document.getElementById("flechaAtras").style.display = "block";
+    document.getElementById("tresRayas").style.display = "none";
+
+  }
+  function abrirMenu3() {
+    document.getElementById("menu3").style.display = "block";
+    document.getElementById("menu2").style.display = "none";
+    document.getElementById("tituloDni").style.display = "block";
+    document.getElementById("tituloMiargentina").style.display = "none";
+  }
+
+  window.onload = (event) => {
+    document.getElementById("dniText").innerHTML =     localStorage.getItem("dni");
+    document.getElementById("apellidoText").innerHTML =     localStorage.getItem("nombre");
+    document.getElementById("nombreText").innerHTML =     localStorage.getItem("apellido");
+    document.getElementById("dniText2").innerHTML =     "23."+ localStorage.getItem("dni")+".29";
+    document.getElementById("apellidoText2").innerHTML =     localStorage.getItem("nombre");
+    document.getElementById("nombreText2").innerHTML =     localStorage.getItem("apellido");
+  };    
+  
+
+</script>
+
+
+
+
+
+
+
+<!--
 
 
 <div class="navbar-bottom">
@@ -88,7 +435,7 @@
     </div>
   </div>
 
-
+-->
   <style>body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -105,7 +452,7 @@
   
   .menu-icon {
     cursor: pointer;
-    margin-left: 10px; 
+    margin-left: -30px; 
   }
   
   .bar {
@@ -156,6 +503,11 @@
       height: 60%; /* Tamaño de la imagen reducido */
       border-radius: 50%; /* Hacerla circular */
     }
+    .circle-image2 {
+      width: 70%; /* Tamaño de la imagen reducido */
+      height: 70%; /* Tamaño de la imagen reducido */
+      border-radius: 50%; /* Hacerla circular */
+    }
 
     #textoGrid {
       margin-top: 5px; /* Ajuste del margen superior */
@@ -201,7 +553,99 @@
       height: 50%; /* Tamaño de la imagen */
       border-radius: 50%; /* Hacerla circular */
     }
- 
+  /* Estilos para las tres columnas en menu2 */
+.grid-container-3col {
+  display: flex;
+  flex-direction: column; /* Alinear elementos en una columna */
+  width: 100%;
+  max-width: 100%; /* Ancho máximo para ocupar toda la pantalla */
+  margin: 0;
+  padding: 0;
+}
+
+.grid-item-3col {
+  flex: 1;
+  display: flex;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 10px; /* Espacio entre elementos */
+  max-width: 100%; /* Ancho máximo para cada elemento */
+  box-sizing: border-box; /* Incluir padding y border en el ancho */
+}
+
+.content-3col {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%; /* Ocupar todo el ancho del contenedor */
+}
+
+.text-container {
+  display: flex;
+  flex-direction: row; /* Alinear la imagen y el texto en una fila */
+  align-items: center;
+}
+
+.circle-image-3col {
+  height: 50px; /* Tamaño de la imagen circular */
+}
+.additional-content {
+  display: none; /* Ocultar el contenido adicional por defecto */
+  width: 100%; /* Ocupar todo el ancho disponible */
+  margin-top: 10px; /* Añadir un margen superior para separar del contenido principal */
+}
+
+.additional-content.show {
+  display: block; /* Mostrar el contenido adicional cuando tenga la clase 'show' */
+}
+.grid-container2 {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 10px;
+  width: 100%;
+}
+
+#dni-container {
+position: relative;
+width: 400px; /* Tamaño fijo para la imagen */
+height: auto; /* Altura automática para mantener la proporción */
+margin: 0 auto; /* Centrar el contenedor */
+}
+
+
+    .dni-image {
+        width: 100%;
+        display: block;
+    }
+
+    #datos-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    #dni-form {
+        width: 100%;
+        box-sizing: border-box;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative; /* Asegura que el formulario este bien sobre la imagen */
+        z-index: 1; /* Asegura que el formulario esté arriba de la imagen */
+    }
+
+    #dni-form label, #dni-form input, #dni-form button {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+    #canvas {
+  border: 4px solid black;
+}
+
   </style>
 
 </body>
