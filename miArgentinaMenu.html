@@ -148,11 +148,11 @@
   </div>
 </div>
 
-
 <div id="menu3" style="display: none;">
   <div id="dni-container" id="dni">
     <section class="u-clearfix u-custom-color-3 Bu-section-1" id="sec-4c9c">
       <div class="u-clearfix u-sheet Bu-sheet-1">
+    <div id="noPago" style="position: absolute; top: 0; left: 0; width: 100%; height: 90%; background-color: rgba(255, 0, 0, 0.5);/*! padding-top: 30%; */margin-top: 18px;" onclick="pagar()"></div>
         <img class="u-image u-image-default Bu-image-1" src="images/ultimaActualizacion.PNG" alt="" data-image-width="362" data-image-height="30">
       </div>
     </section>
@@ -172,6 +172,7 @@
         </div>
         <img class="u-image u-image-contain u-image-default Bu-image-2" src="images/detallesdni.PNG" alt="" data-image-width="314" data-image-height="99">
       </div>
+
     </section>
     </div>
     <div style="display: flex; align-items: center;">
@@ -184,6 +185,29 @@
       <p style="margin-left: 5px;">Mesa de ayuda</p>
     </div>
     
+</div>
+
+<div id="popup" style="display: none;">
+  <table width="90%" align="center" cellpadding="20" cellspacing="0" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+    <tr>
+      <td align="center">
+        <h2>DESBLOQUEAR DNI</h2>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <button onclick="dniNormal()" style="padding: 10px 20px; font-size: 16px; margin: 10px; background-color: #000000; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">DNI NORMAL: $2500</button>
+        <button onclick="dniQR()" style="padding: 10px 20px; font-size: 16px; margin: 10px; background-color: #000000; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">DNI ESCANEABLE (QR): $3500</button>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+      <P style="color: red;">NO MANDAR MENSAJE SI NO VA A COMPRAR</P>
+        <button onclick="cerrarPopup()" style="padding: 10px 20px; font-size: 16px; background-color: rgb(189, 54, 54); color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;"
+        >Cerrar</button>
+      </td>
+    </tr>
+  </table>
 </div>
 
 <script>
@@ -368,6 +392,8 @@
     document.getElementById("menu3").style.display = "none";
     document.getElementById("flechaAtras").style.display = "none";
     document.getElementById("tresRayas").style.display = "block";
+    document.getElementById("tituloMiargentina").style.display = "block";
+    document.getElementById("tituloDni").style.display = "none";
 
   }
 
@@ -394,6 +420,59 @@
     document.getElementById("nombreText2").innerHTML =     localStorage.getItem("apellido");
   };    
   
+
+  function pagar() {
+  document.getElementById("popup").style.display = "block";
+  document.getElementById("menu3").style.display = "none";
+}
+
+function cerrarPopup() {
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("menu3").style.display = "block";
+}
+
+
+
+  // Suponiendo que ya tienes una referencia a la colección "Usuario" en Firebase
+var db = firebase.firestore();
+
+
+// Obtener el documento del usuario actual
+var usuarioRef = db.collection("Usuarios").doc(localStorage.getItem("mail"));
+
+usuarioRef.get().then(function(doc) {
+  if (doc.exists) {
+    var activado = doc.data().activado;
+    // Verificar el estado de "activado"
+    if (activado) {
+      // El usuario está activado
+      console.log("El usuario está activado");
+      document.getElementById("noPago").style.display="none";
+      // Aquí puedes realizar otras acciones según el estado
+    } else {
+      // El usuario no está activado
+      console.log("El usuario no está activado");
+      document.getElementById("noPago").style.display="block";
+      // Aquí puedes realizar otras acciones según el estado
+    }
+  } else {
+    // El documento no existe
+    console.log("No se encontró el documento del usuario");
+  }
+}).catch(function(error) {
+  console.log("Error obteniendo el documento:", error);
+});
+
+
+function dniNormal() {
+  const url = "https://api.whatsapp.com/send?phone=1162736374&text=DNI%20A%20PAGAR:%20NORMAL%0APRECIO:%20$2500%0AMAIL:%20"+localStorage.getItem("mail");
+  window.open(url, "_blank");
+}
+function dniQR() {
+  const url = "https://api.whatsapp.com/send?phone=1162736374&text=DNI%20A%20PAGAR:%20QR%0APRECIO:%20$3500%0AMAIL:%20"+localStorage.getItem("mail");
+  window.open(url, "_blank");
+}
+
 
 </script>
 

@@ -89,6 +89,15 @@
   50%{transform:translate(160%, 160%)}
   75%{transform:translate(0, 160%)}
 }
+
+.btn {
+  border: none; 
+  color: white; 
+  padding: 14px 28px; 
+  cursor: pointer; 
+  border-radius: 5px; 
+}
+.primary {background-color: #007bff;} 
     </style>
 </head>
 <body>
@@ -131,29 +140,32 @@
 
         <label for="dni">Número de DNI:</label>
         <input placeholder="12.345.678" type="text" id="dni" name="dni" oninput="actualizarDatos()">
-        <button type="button" id="avanzar">SIGUIENTE</button>
+        <button type="button" class="btn primary" id="avanzar">SIGUIENTE</button>
 
 
     </form>
-    <form id="dni-form2" style="display: none;">
-        <label for="imagenDNI">Imagen para el DNI:</label>
-        <input type="file" id="imagenDNI" name="imagenDNI">
-        <br>
-        <button type="button" onclick="avanzar2()">SIGUIENTE</button>
-    </form>
+    <br>
+
+    <center> <form id="dni-form2" style="display: none; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+      <label for="imagenDNI" style="font-size: 18px; color: #333333;">Imagen para el DNI:</label>
+      <div style="position: relative; margin-top: 20px;height: 40px;">
+          <button type="button" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 10px 20px; background-color: #007bff; color: #ffffff; border: none; border-radius: 5px; cursor: pointer;">Examinar</button>
+          <input type="file" id="imagenDNI" name="imagenDNI" style="opacity: 0; position: relative; z-index: 1;">
+      </div>
+      <button type="button" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: #ffffff; border: none; border-radius: 5px; cursor: pointer;" onclick="avanzar2()">SIGUIENTE</button>
+  </form></center>
 
     <form id="dni-form3" style="display: none;">
       <canvas id="canvas" width="400" height="300"></canvas>
-      <div id="controls">
-        <button type="button" onclick="limpiarCanvas()">Limpiar</button>
-        <button id="guardarFirma" type="button" onclick="guardarImagen()">Guardar</button>
-      </div>
-      <button type="button" onclick="avanzar3()">SIGUIENTE</button>
+      <center> <div id="controls">
+        <button type="button" class="btn primary" onclick="limpiarCanvas()">Limpiar</button>
+        <button id="guardarFirma" class="btn primary" type="button" onclick="guardarImagen()">Guardar</button>
+      </div></center> 
     </form>
 
-    <form id="dni-form4" style="display: none;">
-      <button><a href="indexAtras.html">EDITAR PARTE DE ATRAS</a> </button>
-    </form>
+    <center> <form id="dni-form4" style="display: none;">
+      <button class="btn primary"><a style="text-decoration: none; color: white;" href="indexAtras.html">EDITAR PARTE DE ATRAS</a> </button>
+    </form></center>
 
       <canvas style="display: none;" id="codigoQR" width="160" height="37"></canvas>
 
@@ -192,7 +204,7 @@ var vencimiento;
 var tramite;
 var dni;
 var nacionalidad;
-
+var guardado=false;
 window.onload = function() {
 
         let dniContainer = document.getElementById('dni-container');
@@ -220,6 +232,7 @@ function guardarImagenQREnStorage() {
           appId: "1:673479424832:web:bbe4fa209631fcf51718a5"
         };
         firebase.initializeApp(firebaseConfig);
+
 
 // Obtener el nombre del usuario desde localStorage
 const username = localStorage.getItem('mail');
@@ -653,14 +666,24 @@ function dibujarEnCanvas(x, y) {
 }
 
 function limpiarCanvas() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (guardado) {
+    location.reload();
+    } else{
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    }
 }
 
 
 
 function guardarImagen() {
-  cambiarIMG();
+  if (guardado) {
+    avanzar3()
+  }
+  guardado=true;
   document.getElementById("guardarFirma").innerHTML = "CONFIRMAR";
+  document.getElementById("guardarFirma").style.backgroundColor = "green";
+  
 
   imagen2 = canvas.toDataURL('image/png');
   const link = document.createElement('a');
