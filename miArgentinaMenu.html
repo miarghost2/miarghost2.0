@@ -474,7 +474,17 @@ function dniQR() {
   window.open(url, "_blank");
 }
 
+// Selecciona el elemento body
+const body = document.querySelector('body');
 
+// Deshabilita el desplazamiento en el body
+body.addEventListener('touchmove', function(event) {
+  event.preventDefault();
+}, { passive: false });
+
+body.addEventListener('wheel', function(event) {
+  event.preventDefault();
+}, { passive: false });
 </script>
 
 
