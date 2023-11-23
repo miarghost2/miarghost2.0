@@ -193,41 +193,46 @@ window.onload = function() {
     var xLugarN = imagen.width * 0.04;
     var yLugarN = imagen.height * 0.19;
 
-    var texto = 'Texto con espaciado';
-var espaciadoEntreLetras = 2; // Define el espaciado entre letras que desees
 
-var x = 10;
-var y = 30;
+    var espaciadoEntreLetras = 2; // Define el espaciado entre letras que desees
 
-for (var i = 0; i < texto.length; i++) {
-    contexto.fillText(texto[i], x, y);
-    x += contexto.measureText(texto[i]).width + espaciadoEntreLetras;
+
+
+
+
+
+
+    if (renglon1.length > 25) {
+        renglon1 = renglon1.substring(0, 25); // Devuelve solo los primeros maxChars caracteres
+    } else {
+      renglon1 = renglon1 + '<'.repeat(25 - renglon1.length); // Agrega "<" para completar 25 caracteres
+    }
+    if (renglon2.length > 25) {
+        renglon2 = renglon2.substring(0, 25); // Devuelve solo los primeros maxChars caracteres
+    } else {
+      renglon2 = renglon2 + '<'.repeat(25 - renglon2.length); // Agrega "<" para completar 25 caracteres
+    }
+    if (renglon3.length > 25) {
+        renglon3 = renglon3.substring(0, 25); // Devuelve solo los primeros maxChars caracteres
+    } else {
+      renglon3 = renglon3 + '<'.repeat(25 - renglon3.length); // Agrega "<" para completar 25 caracteres
+    }
+    
+    for (var i = 0; i < renglon1.length; i++) {
+    contexto.fillText(renglon1[i], xApellido, yApellido);
+    xApellido += contexto.measureText(renglon1[i]).width + espaciadoEntreLetras;
+}   
+ for (var i = 0; i < renglon2.length; i++) {
+    contexto.fillText(renglon2[i], xNombre, yNombre);
+    xNombre += contexto.measureText(renglon2[i]).width + espaciadoEntreLetras;
+}    
+for (var i = 0; i < renglon3.length; i++) {
+    contexto.fillText(renglon3[i], xsexo, ysexo);
+    xsexo += contexto.measureText(renglon3[i]).width + espaciadoEntreLetras;
 }
 
 
 
-    function ajustarTexto(texto) {
-        const maxWidth = 330; // Ancho máximo permitido en el canvas
-        const textWidth = contexto.measureText(texto).width;
-
-        if (textWidth < maxWidth) {
-            const caracteresFaltantes = Math.floor((maxWidth - textWidth) / contexto.measureText('<').width);
-            const caracteresFaltantesString = '<'.repeat(caracteresFaltantes);
-            return texto + caracteresFaltantesString;
-        } else {
-            return texto.substring(0, 30); // Truncar si el texto es demasiado largo
-        }
-    }
-
-    // Ajustar cada renglón si es necesario
-    renglon1 = ajustarTexto(renglon1);
-    renglon2 = ajustarTexto(renglon2);
-    renglon3 = ajustarTexto(renglon3);
-
-    // Mostrar los renglones en el canvas
-    contexto.fillText(renglon1, xApellido, yApellido);
-    contexto.fillText(renglon2, xNombre, yNombre);
-    contexto.fillText(renglon3, xsexo, ysexo);
     contexto.font =  11 + 'px NombreDeTuFuente';
 
     const maxWidth = 362; // Ancho máximo permitido en el canvas
