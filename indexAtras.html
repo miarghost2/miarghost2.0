@@ -212,7 +212,11 @@ console.log(text);
         width = contexto.measureText(text).width;
 
     }
-
+    const additionalChars = "<";
+    while (width+80 + contexto.measureText(additionalChars).width <= maxWidth) {
+        text += additionalChars;
+        width = contexto.measureText(text).width;
+    }
     return text;
 }
 
@@ -229,6 +233,11 @@ console.log(text);
         width = contexto.measureText(text).width;
         console.log(text);
 
+    }
+    const additionalChars = "<";
+    while (width+80 + contexto.measureText(additionalChars).width <= maxWidth) {
+        text += additionalChars;
+        width = contexto.measureText(text).width;
     }
     return text;
 }
