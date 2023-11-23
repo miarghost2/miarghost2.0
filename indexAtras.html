@@ -172,7 +172,7 @@ window.onload = function() {
 
     contexto.fillStyle = 'black';
     contexto.font = 15 + 'px NombreDeTuFuente';
-    contexto.letterSpacing = '10px'; 
+    contexto.letterSpacing = '2px'; 
 
     // Coordenadas proporcionales al tamaño de la imagen
     var xApellido = imagen.width * 0.09;
@@ -193,7 +193,16 @@ window.onload = function() {
     var xLugarN = imagen.width * 0.04;
     var yLugarN = imagen.height * 0.19;
 
- 
+    var texto = 'Texto con espaciado';
+var espaciadoEntreLetras = 2; // Define el espaciado entre letras que desees
+
+var x = 10;
+var y = 30;
+
+for (var i = 0; i < texto.length; i++) {
+    contexto.fillText(texto[i], x, y);
+    x += contexto.measureText(texto[i]).width + espaciadoEntreLetras;
+}
 
 
 
