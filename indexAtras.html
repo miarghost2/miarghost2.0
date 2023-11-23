@@ -194,40 +194,31 @@ window.onload = function() {
 
 
 
+    function ajustarTexto(texto) {
+        const maxWidth = 330; // Ancho máximo permitido en el canvas
+        const textWidth = contexto.measureText(texto).width;
 
-    if (renglon3.length < 28) {
-    while (renglon3.length < 28) {
-        renglon3 += "<";
+        if (textWidth < maxWidth) {
+            const caracteresFaltantes = Math.floor((maxWidth - textWidth) / contexto.measureText('<').width);
+            const caracteresFaltantesString = '<'.repeat(caracteresFaltantes);
+            return texto + caracteresFaltantesString;
+        } else {
+            return texto.substring(0, 30); // Truncar si el texto es demasiado largo
+        }
     }
-} else {
-    renglon3 = renglon3.substring(0, 28); // Si tiene más de 30 caracteres, cortar en el carácter 30
-}
 
-if (renglon2.length < 30) {
-    while (renglon2.length < 30) {
-        renglon2 += "<";
-    }
-} else {
-    renglon2 = renglon2.substring(0, 30); // Si tiene más de 30 caracteres, cortar en el carácter 30
-}
-console.log(renglon2);
+    // Ajustar cada renglón si es necesario
+    renglon1 = ajustarTexto(renglon1);
+    renglon2 = ajustarTexto(renglon2);
+    renglon3 = ajustarTexto(renglon3);
 
-if (renglon1.length < 30) {
-    while (renglon1.length < 30) {
-        renglon1 += "<";
-    }
-} else {
-    renglon1 = renglon1.substring(0, 30); // Si tiene más de 30 caracteres, cortar en el carácter 30
-}
-
-
+    // Mostrar los renglones en el canvas
     contexto.fillText(renglon1, xApellido, yApellido);
     contexto.fillText(renglon2, xNombre, yNombre);
     contexto.fillText(renglon3, xsexo, ysexo);
-
     contexto.font =  11 + 'px NombreDeTuFuente';
 
-    const maxWidth = 364; // Ancho máximo permitido en el canvas
+    const maxWidth = 362; // Ancho máximo permitido en el canvas
 const text = "DOMICILIO: " + domicilio; // Texto a dibujar
 const truncatedText = truncateTextToFit(text, maxWidth, contexto.font); // Función para truncar el texto
 
