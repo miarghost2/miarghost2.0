@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Elige una plataforma</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background-color: #56baed;
+      margin: 0;
+      text-align: center;
+    }
+    
+    h1 {
+      margin-bottom: 30px;
+      color: #333;
+      font-size: 500%;
+      text-decoration: underline;
+    }
+    
+    .section {
+      margin-top: 50px;
+    }
+    
+    .section h2 {
+      font-size: 200%;
+    }
+    
+    .section img {
+      width: 300px;
+      height: auto;
+      margin-top: 20px;
+    }
+    
+    #logos {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+      opacity: 0;
+      animation: appear 1s ease forwards;
+    }
+    
+    #android-logo,
+    #iphone-logo {
+      width: 300px;
+      height: auto;
+      margin: 20px;
+      transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+
+    #iphone-logo {
+      width: 400px;
+      height: auto;
+    }
+    
+    #logos img {
+      animation: slide-in 1s forwards;
+    }
+    
+    #android-logo:hover,
+    #iphone-logo:hover {
+      transform: scale(1.1);
+    }
+    
+    @keyframes appear {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slide-in {
+      0% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+    <div id="todo" style="display: none;">
+        <h1>Elige una plataforma</h1>
+        <div id="logos">
+          <img id="android-logo" src="imgMenu/andorid.png" alt="Logo Android">
+          <img id="iphone-logo" src="imgMenu/apple.png" alt="Logo iPhone">
+        </div>
+    </div>
+  
+    <div id="androidMenu" class="section">
+        <h1>DESCARGAR EN ANDROID</h1>
+        <div>
+            <h2>Paso 1: Darle a los 3 puntos de la esquina de la pantalla</h2>
+            <img src="ruta/a/la/foto1.png" alt="Paso 1">
+        </div>
+        <div>
+            <h2>Paso 2:</h2>
+            <img src="ruta/a/la/foto2.png" alt="Paso 2">
+        </div>
+    </div>
+</body>
+</html>
