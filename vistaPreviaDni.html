@@ -92,7 +92,7 @@ height:100px;
     <section class="u-clearfix Bu-section-2" id="sec-8eb5">
       <div class="u-clearfix u-sheet Bu-sheet-1">
         <div class ="tarjeta">
-          <img id="imagen1" class="u-image u-image-default Bu-image-1 dni-image" src="" data-image-width="900" data-image-height="578" onclick="cambiarImagen()">
+          <img id="imagen1" class="u-image u-image-default Bu-image-1 dni-image" src="dni.jpg" data-image-width="900" data-image-height="578" onclick="cambiarImagen()">
           <img id="imagen2" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/2.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
           <img id="imagen3" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/3.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
           <img id="imagen4" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/4.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
@@ -150,6 +150,8 @@ function urlImagenes() {
       console.log('URL del archivo 2:', url2);
       document.getElementById("imagen10").src = url2;
       // Aquí puedes utilizar la URL del segundo archivo como lo necesites
+
+
     })
     .catch((error) => {
       console.error('Error al obtener la URL del archivo 2:', error);
