@@ -163,6 +163,7 @@ window.onload = function() {
     canvas.height = imagen.height;
     var contexto = canvas.getContext('2d');
     var domicilio = document.getElementById("domicilio").value.toUpperCase();
+    const maxWidth = 362; // Ancho máximo permitido en el canvas
 
     // Limpiar  canvas
     contexto.clearRect(0, 0, canvas.width, canvas.height);
@@ -198,44 +199,81 @@ window.onload = function() {
 
 
 
+      text2 = renglon1;
+    const truncatedText2 = truncateTextToFit2(text2, maxWidth, contexto.font); // Función para truncar el texto
 
+// Esta función trunca el texto si supera el ancho máximo dado
+function truncateTextToFit2(text, maxWidth, font) {
+console.log(text);
 
+    let width = contexto.measureText(text).width;
+    while (width+80 > maxWidth) {
+        text = text.slice(0, -1);
+        width = contexto.measureText(text).width;
 
-
-    if (renglon1.length > 25) {
-        renglon1 = renglon1.substring(0, 25); // Devuelve solo los primeros maxChars caracteres
-    } else {
-      renglon1 = renglon1 + '<'.repeat(25 - renglon1.length); // Agrega "<" para completar 25 caracteres
     }
-    if (renglon2.length > 25) {
-        renglon2 = renglon2.substring(0, 25); // Devuelve solo los primeros maxChars caracteres
-    } else {
-      renglon2 = renglon2 + '<'.repeat(25 - renglon2.length); // Agrega "<" para completar 25 caracteres
+
+    return text;
+}
+
+text3 = renglon2;
+    const truncatedText3 = truncateTextToFit3(text3, maxWidth, contexto.font); // Función para truncar el texto
+
+// Esta función trunca el texto si supera el ancho máximo dado
+function truncateTextToFit3(text, maxWidth, font) {
+console.log(text);
+
+    let width = contexto.measureText(text).width;
+    while (width+80 > maxWidth) {
+        text = text.slice(0, -1);
+        width = contexto.measureText(text).width;
+        console.log(text);
+
     }
-    if (renglon3.length > 25) {
-        renglon3 = renglon3.substring(0, 25); // Devuelve solo los primeros maxChars caracteres
-    } else {
-      renglon3 = renglon3 + '<'.repeat(25 - renglon3.length); // Agrega "<" para completar 25 caracteres
+    return text;
+}
+   
+text4 = renglon3;
+    const truncatedText4 = truncateTextToFit4(text4, maxWidth, contexto.font); // Función para truncar el texto
+
+// Esta función trunca el texto si supera el ancho máximo dado
+function truncateTextToFit4(text, maxWidth, font) {
+console.log(text);
+
+    let width = contexto.measureText(text).width;
+    while (width+80 > maxWidth) {
+        text = text.slice(0, -1);
+        width = contexto.measureText(text).width;
+        console.log(text);
+
     }
-    
-    for (var i = 0; i < renglon1.length; i++) {
-    contexto.fillText(renglon1[i], xApellido, yApellido);
-    xApellido += contexto.measureText(renglon1[i]).width + espaciadoEntreLetras;
+
+    const additionalChars = "<";
+    while (width+80 + contexto.measureText(additionalChars).width <= maxWidth) {
+        text += additionalChars;
+        width = contexto.measureText(text).width;
+    }
+    return text;
+}
+   
+
+    for (var i = 0; i < truncatedText2.length; i++) {
+    contexto.fillText(truncatedText2[i], xApellido, yApellido);
+    xApellido += contexto.measureText(truncatedText2[i]).width + espaciadoEntreLetras;
 }   
- for (var i = 0; i < renglon2.length; i++) {
-    contexto.fillText(renglon2[i], xNombre, yNombre);
-    xNombre += contexto.measureText(renglon2[i]).width + espaciadoEntreLetras;
+ for (var i = 0; i < truncatedText3.length; i++) {
+    contexto.fillText(truncatedText3[i], xNombre, yNombre);
+    xNombre += contexto.measureText(truncatedText3[i]).width + espaciadoEntreLetras;
 }    
-for (var i = 0; i < renglon3.length; i++) {
-    contexto.fillText(renglon3[i], xsexo, ysexo);
-    xsexo += contexto.measureText(renglon3[i]).width + espaciadoEntreLetras;
+for (var i = 0; i < truncatedText4.length; i++) {
+    contexto.fillText(truncatedText4[i], xsexo, ysexo);
+    xsexo += contexto.measureText(truncatedText4[i]).width + espaciadoEntreLetras;
 }
 
 
 
     contexto.font =  11 + 'px NombreDeTuFuente';
 
-    const maxWidth = 362; // Ancho máximo permitido en el canvas
 const text = "DOMICILIO: " + domicilio; // Texto a dibujar
 const truncatedText = truncateTextToFit(text, maxWidth, contexto.font); // Función para truncar el texto
 
