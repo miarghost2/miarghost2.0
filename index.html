@@ -204,6 +204,7 @@ var tramite;
 var dni;
 var nacionalidad;
 var guardado=false;
+var guardado2=false;
 window.onload = function() {
 
         let dniContainer = document.getElementById('dni-container');
@@ -673,11 +674,24 @@ function limpiarCanvas() {
     }
 }
 
-
+function forzarClic() {
+  document.getElementById("guardarFirma").click()
+}
 
 function guardarImagen() {
+  html2canvas(document.getElementById('dni-container')).then(function(canvas) {
+    var img = canvas.toDataURL('image/png');
+      var link = document.createElement('a');
+      document.getElementById("dni-image").src = img;
+  })
   if (guardado) {
-    avanzar3()
+    if (guardado2) {
+      avanzar3()
+      
+    }
+
+    guardado2 = true;
+    setTimeout(forzarClic, 400); // 2000 milisegundos = 2 segundos
   }
   guardado=true;
   document.getElementById("guardarFirma").innerHTML = "CONFIRMAR";
