@@ -19,10 +19,14 @@
   font-family: 'NombreDeTuFuente'; 
   src: url('NimbusSanL-Reg.otf') format('opentype');
 }
+@font-face {
+  font-family: 'NombreDeTuFuente2'; 
+  src: url('NimbusSanL-Reg.woff') format('opentype');
+}
 
 
         body {
-            font-family: "NombreDeTuFuente", sans-serif;
+            font-family: "NombreDeTuFuente", "NombreDeTuFuente2";
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -167,7 +171,7 @@ window.onload = function() {
     var fontSize = 16; // Tamaño de la fuente deseado, puedes ajustarlo
 
     contexto.fillStyle = 'black';
-    contexto.font = 'bold ' + 15 + 'px Arial';
+    contexto.font = 'bold ' + 15 + 'px NombreDeTuFuente';
     contexto.letterSpacing = '2px'; 
 
 
