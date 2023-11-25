@@ -279,9 +279,9 @@ if (imageURL && username) {
 }
 }
 
-
+var primVez1 = true;
+var segVez1= true;
 // Llama a la función una vez al cargar la página para verificar la posición inicial
-
 
 function actualizarDatos() {
      apellido = document.getElementById('apellido').value.toUpperCase();
@@ -298,23 +298,24 @@ function actualizarDatos() {
     var imagenDni = document.getElementById('imagenDNI');
 
     const fechaInput = document.getElementById('nacimiento').value;
-
     const fechaParseada = new Date(fechaInput + 'T00:00:00');
 
-  const opcionesFecha = { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'America/Argentina/Buenos_Aires' };
-  const formatoEspañol = fechaParseada.toLocaleString('es-ES', opcionesFecha);
-  const formatoInglés = fechaParseada.toLocaleString('en-US', opcionesFecha);
+const opcionesFecha = { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'America/Argentina/Buenos_Aires' };
+const formatoEspañol = fechaParseada.toLocaleString('es-ES', opcionesFecha);
+const formatoInglés = fechaParseada.toLocaleString('en-US', opcionesFecha);
 
-  const partesFechaEspañol = formatoEspañol.split(' ');
-  const partesFechaInglés = formatoInglés.split(' ');
+const partesFechaEspañol = formatoEspañol.split(' ');
+const partesFechaInglés = formatoInglés.split(' ');
 
-  const diaMostrado = partesFechaEspañol[0];
-  const mesEspañol = partesFechaEspañol[1].toUpperCase().slice(0, 3); // Tomar solo las primeras 3 letras del mes
-  const mesIngles = fechaParseada.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-  const año = partesFechaEspañol[2];
-  console.log(mesIngles)
-  const fechaMostrada = `${diaMostrado} ${mesEspañol}/${mesIngles} ${año}`;
-  
+const diaMostrado = partesFechaEspañol[0];
+const mesEspañol = partesFechaEspañol[1].toUpperCase().slice(0, 3); // Tomar solo las primeras 3 letras del mes
+const mesIngles = fechaParseada.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+const año = partesFechaEspañol[2];
+console.log(mesIngles)
+const fechaMostrada = `${diaMostrado} ${mesEspañol}/${mesIngles} ${año}`;
+
+
+
   
 
   const fechaInput2 = document.getElementById('emision').value;
@@ -404,16 +405,26 @@ const fechaMostrada3 = `${diaMostrado3} ${mesEspañol3}/${mesIngles3} ${año3}`;
     var xdni = imagen.width * 0.04;
     var ydni = imagen.height * .92;
 
+    if (primVez1) {
+
+      nacimiento = fechaMostrada
+    emision = fechaMostrada2
+    vencimiento = fechaMostrada3      
+    } else if (segVez1) {
+      nacimiento = " "
+    emision = " "
+    vencimiento = " "      
+    }
+
     // Dibujar los datos en el canvas
     contexto.fillText(nombre, xNombre, yNombre);
     contexto.fillText(apellido, xApellido, yApellido);
     contexto.fillText(sexo, xsexo, ysexo);
     contexto.fillText(nacionalidad, xnacionalidad, ynacionalidad);
     contexto.fillText(ejemplar, xejemplar, yejemplar);
-    contexto.fillText(fechaMostrada, xnacimiento, ynacimiento);
-    contexto.fillText(fechaMostrada2, xemision, yemision);
-    contexto.fillText(fechaMostrada3, xvencimiento, yvencimiento);
-   
+    contexto.fillText(nacimiento, xnacimiento, ynacimiento);
+    contexto.fillText(emision, xemision, yemision);
+    contexto.fillText(vencimiento, xvencimiento, yvencimiento);
 
 
 
@@ -521,6 +532,8 @@ document.getElementById('imagenDNI').addEventListener('change', function(event) 
 
 
 document.getElementById('avanzar').addEventListener('click', function() {
+  primVez1 = false;
+  segVez1 = true;
   localStorage.setItem('apellido', apellido);
     localStorage.setItem('nombre', nombre);
     localStorage.setItem('sexo', sexo);
