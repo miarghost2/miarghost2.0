@@ -126,13 +126,13 @@
         <input placeholder="A/B/C" type="text" id="ejemplar" name="ejemplar" oninput="actualizarDatos()">
 
         <label for="nacimiento">Fecha de Nacimiento: </label>
-        <input value="22 MAR/ MAR 2005" type="text" id="nacimiento" name="nacimiento" oninput="actualizarDatos()">
+        <input value="2005-03-22" type="date" id="nacimiento" name="nacimiento" oninput="actualizarDatos()">
 
         <label for="emision">Fecha de Emisión: </label>
-        <input value="22 MAR/ MAR 2021" type="text" id="emision" name="emision" oninput="actualizarDatos()">
+        <input value="2021-08-19" type="date" id="emision" name="emision" oninput="actualizarDatos()">
 
         <label for="vencimiento">Fecha de Vencimiento: </label>
-        <input value="22 MAR/ MAR 2028" type="text" id="vencimiento" name="vencimiento" oninput="actualizarDatos()">
+        <input value="2038-08-19" type="date" id="vencimiento" name="vencimiento" oninput="actualizarDatos()">
 
         <label for="tramite">Número Trámite: </label>
         <input placeholder="123456789123456" type="number" id="tramite" name="tramite" oninput="actualizarDatos()">
@@ -211,6 +211,11 @@ window.onload = function() {
         let rect = dniContainer.getBoundingClientRect();
         let isVisible = (rect.top >= 0) && (rect.bottom <= window.innerHeight);
 
+        let numeroTramiteRandom = '';
+        for (let i = 0; i < 15; i++) {
+        numeroTramiteRandom += Math.floor(Math.random() * 10); // Genera dígitos aleatorios del 0 al 9
+      }    
+      document.getElementById("tramite").value = numeroTramiteRandom;
         if (!isVisible) {
             let nuevaPosicion = rect.top + (window.innerHeight - rect.height) / 2;
             nuevaPosicion = Math.max(-20, nuevaPosicion); // Límite de ajuste del margen
@@ -292,9 +297,64 @@ function actualizarDatos() {
      nacionalidad = document.getElementById('nacionalidad').value.toUpperCase();
     var imagenDni = document.getElementById('imagenDNI');
 
+    const fechaInput = document.getElementById('nacimiento').value;
+
+    const fechaParseada = new Date(fechaInput + 'T00:00:00');
+
+  const opcionesFecha = { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'America/Argentina/Buenos_Aires' };
+  const formatoEspañol = fechaParseada.toLocaleString('es-ES', opcionesFecha);
+  const formatoInglés = fechaParseada.toLocaleString('en-US', opcionesFecha);
+
+  const partesFechaEspañol = formatoEspañol.split(' ');
+  const partesFechaInglés = formatoInglés.split(' ');
+
+  const diaMostrado = partesFechaEspañol[0];
+  const mesEspañol = partesFechaEspañol[1].toUpperCase().slice(0, 3); // Tomar solo las primeras 3 letras del mes
+  const mesIngles = fechaParseada.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  const año = partesFechaEspañol[2];
+  console.log(mesIngles)
+  const fechaMostrada = `${diaMostrado} ${mesEspañol}/${mesIngles} ${año}`;
+  
+  
+
+  const fechaInput2 = document.getElementById('emision').value;
+
+    const fechaParseada2 = new Date(fechaInput2 + 'T00:00:00');
+
+  const opcionesFecha2 = { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'America/Argentina/Buenos_Aires' };
+  const formatoEspañol2 = fechaParseada2.toLocaleString('es-ES', opcionesFecha2);
+  const formatoInglés2 = fechaParseada2.toLocaleString('en-US', opcionesFecha2);
+
+  const partesFechaEspañol2 = formatoEspañol2.split(' ');
+  const partesFechaInglés2 = formatoInglés2.split(' ');
+
+  const diaMostrado2 = partesFechaEspañol2[0];
+  const mesEspañol2 = partesFechaEspañol2[1].toUpperCase().slice(0, 3); // Tomar solo las primeras 3 letras del mes
+  const mesIngles2 = fechaParseada2.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  const año2 = partesFechaEspañol2[2];
+  const fechaMostrada2 = `${diaMostrado2} ${mesEspañol2}/${mesIngles2} ${año2}`;
+  
+
+  const fechaInput3 = document.getElementById('vencimiento').value;
+
+const fechaParseada3 = new Date(fechaInput3 + 'T00:00:00');
+
+const opcionesFecha3 = { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'America/Argentina/Buenos_Aires' };
+const formatoEspañol3 = fechaParseada3.toLocaleString('es-ES', opcionesFecha3);
+const formatoInglés3 = fechaParseada3.toLocaleString('en-US', opcionesFecha3);
+
+const partesFechaEspañol3 = formatoEspañol3.split(' ');
+const partesFechaInglés3 = formatoInglés3.split(' ');
+
+const diaMostrado3 = partesFechaEspañol3[0];
+const mesEspañol3 = partesFechaEspañol3[1].toUpperCase().slice(0, 3); // Tomar solo las primeras 3 letras del mes
+const mesIngles3 = fechaParseada3.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+const año3 = partesFechaEspañol3[2];
+const fechaMostrada3 = `${diaMostrado3} ${mesEspañol3}/${mesIngles3} ${año3}`;
 
 
 
+  console.log(fechaMostrada)
     // conseguir  canvas y su contexto
     var canvas = document.getElementById('datos-overlay');
     var imagen = document.getElementById('dni-image');
@@ -350,9 +410,9 @@ function actualizarDatos() {
     contexto.fillText(sexo, xsexo, ysexo);
     contexto.fillText(nacionalidad, xnacionalidad, ynacionalidad);
     contexto.fillText(ejemplar, xejemplar, yejemplar);
-    contexto.fillText(nacimiento, xnacimiento, ynacimiento);
-    contexto.fillText(emision, xemision, yemision);
-    contexto.fillText(vencimiento, xvencimiento, yvencimiento);
+    contexto.fillText(fechaMostrada, xnacimiento, ynacimiento);
+    contexto.fillText(fechaMostrada2, xemision, yemision);
+    contexto.fillText(fechaMostrada3, xvencimiento, yvencimiento);
    
 
 
