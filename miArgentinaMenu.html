@@ -243,7 +243,7 @@
     .catch((error) => {
       console.error('Error al obtener la URL del archivo 1:', error);
       // Si no se encuentra dniFrente, intenta con dniFrente.jpg
-      archivoRef1.parent.child("dniFrente.jpg").getDownloadURL()
+      archivoRef1.parent.child("dniFrente.png").getDownloadURL()
         .then((fallbackUrl1) => {
           console.log('URL del archivo 1 (fallback):', fallbackUrl1);
           document.getElementById("imagen1").src = fallbackUrl1;
