@@ -213,47 +213,57 @@
 <script>
 
   function urlImagenes() {
-      const firebaseConfig = {
-            apiKey: "AIzaSyC-VuSbZtYwfeB8PfbG_py75yGu9OTcRIQ",
-            authDomain: "miargentina-76248.firebaseapp.com",
-            projectId: "miargentina-76248",
-            storageBucket: "miargentina-76248.appspot.com",
-            messagingSenderId: "673479424832",
-            appId: "1:673479424832:web:bbe4fa209631fcf51718a5"
-          };
-          firebase.initializeApp(firebaseConfig);
-          var username = localStorage.getItem("mail");
-          var nombreArchivo1 = "dniFrente";
-          var nombreArchivo2 = "dniAtras";
-  
-    // Obtener una referencia a la carpeta del usuario
-    const storageRef = firebase.storage().ref().child(username);
-  
-    // Obtener las referencias de los dos archivos específicos
-    const archivoRef1 = storageRef.child(nombreArchivo1);
-    const archivoRef2 = storageRef.child(nombreArchivo2);
-  
-    // Obtener las URLs de descarga de los archivos específicos
-    archivoRef1.getDownloadURL()
-      .then((url1) => {
-        console.log('URL del archivo 1:', url1);
-        document.getElementById("imagen1").src = url1;
-        // Aquí puedes utilizar la URL del primer archivo como lo necesites
-      })
-      .catch((error) => {
-        console.error('Error al obtener la URL del archivo 1:', error);
-      });
-  
-    archivoRef2.getDownloadURL()
-      .then((url2) => {
-        console.log('URL del archivo 2:', url2);
-        document.getElementById("imagen10").src = url2;
-        // Aquí puedes utilizar la URL del segundo archivo como lo necesites
-      })
-      .catch((error) => {
-        console.error('Error al obtener la URL del archivo 2:', error);
-      });
-  }
+  const firebaseConfig = {
+    apiKey: "AIzaSyC-VuSbZtYwfeB8PfbG_py75yGu9OTcRIQ",
+    authDomain: "miargentina-76248.firebaseapp.com",
+    projectId: "miargentina-76248",
+    storageBucket: "miargentina-76248.appspot.com",
+    messagingSenderId: "673479424832",
+    appId: "1:673479424832:web:bbe4fa209631fcf51718a5"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var username = localStorage.getItem("mail");
+  var nombreArchivo1 = "dniFrente";
+  var nombreArchivo2 = "dniAtras";
+
+  // Obtener una referencia a la carpeta del usuario
+  const storageRef = firebase.storage().ref().child(username);
+
+  // Obtener las referencias de los dos archivos específicos
+  const archivoRef1 = storageRef.child(nombreArchivo1);
+  const archivoRef2 = storageRef.child(nombreArchivo2);
+
+  // Obtener las URLs de descarga de los archivos específicos
+  archivoRef1.getDownloadURL()
+    .then((url1) => {
+      console.log('URL del archivo 1:', url1);
+      document.getElementById("imagen1").src = url1;
+      // Aquí puedes utilizar la URL del primer archivo como lo necesites
+    })
+    .catch((error) => {
+      console.error('Error al obtener la URL del archivo 1:', error);
+      // Si no se encuentra dniFrente, intenta con dniFrente.jpg
+      archivoRef1.parent.child("dniFrente.jpg").getDownloadURL()
+        .then((fallbackUrl1) => {
+          console.log('URL del archivo 1 (fallback):', fallbackUrl1);
+          document.getElementById("imagen1").src = fallbackUrl1;
+        })
+        .catch((fallbackError1) => {
+          console.error('Error al obtener la URL del archivo 1 (fallback):', fallbackError1);
+        });
+    });
+
+  archivoRef2.getDownloadURL()
+    .then((url2) => {
+      console.log('URL del archivo 2:', url2);
+      document.getElementById("imagen10").src = url2;
+      // Aquí puedes utilizar la URL del segundo archivo como lo necesites
+    })
+    .catch((error) => {
+      console.error('Error al obtener la URL del archivo 2:', error);
+      // Puedes hacer lo mismo para dniFrente.jpg en el archivoRef2 si es necesario
+    });
+}
   
   // Llamar a la función con el nombre de usuario y los nombres de los archivos deseados
   urlImagenes();
