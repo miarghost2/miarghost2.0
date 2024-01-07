@@ -202,7 +202,6 @@ var dni;
 var nacionalidad;
 var guardado=false;
 var guardado2=false;
-var qrCode1;
 window.onload = function() {
 
         let dniContainer = document.getElementById('dni-container');
@@ -280,44 +279,6 @@ if (imageURL && username) {
 var primVez1 = true;
 var segVez1= true;
 // Llama a la función una vez al cargar la página para verificar la posición inicial
-
-function subirQR() {
-  const firebaseConfig = {
-      apiKey: "AIzaSyC-VuSbZtYwfeB8PfbG_py75yGu9OTcRIQ",
-      authDomain: "miargentina-76248.firebaseapp.com",
-      projectId: "miargentina-76248",
-      storageBucket: "miargentina-76248.appspot.com",
-      messagingSenderId: "673479424832",
-      appId: "1:673479424832:web:bbe4fa209631fcf51718a5"
-    };
-    firebase.initializeApp(firebaseConfig);
-    
-    var tramiteSinEspaciosYPuntos = localStorage.getItem('tramite').replace(/[\s.]+/g, '');
-var apellidoSinEspaciosYPuntos = localStorage.getItem('apellido').replace(/[\s.]+/g, '');
-var nombreSinEspaciosYPuntos = localStorage.getItem('nombre').replace(/[\s.]+/g, '');
-var sexoSinEspaciosYPuntos = localStorage.getItem('sexo').replace(/[\s.]+/g, '');
-var dniSinEspaciosYPuntos = localStorage.getItem('dni').replace(/[\s.]+/g, '');
-var ejemplarSinEspaciosYPuntos = localStorage.getItem('ejemplar').replace(/[\s.]+/g, '');
-var nacimientoSinEspaciosYPuntos = localStorage.getItem('nacimiento').replace(/[\s.]+/g, '');
-var emisionSinEspaciosYPuntos = localStorage.getItem('emision').replace(/[\s.]+/g, '');
-
-  qrCode1 =tramiteSinEspaciosYPuntos+'@'+apellidoSinEspaciosYPuntos+'@'+nombreSinEspaciosYPuntos+'@'+sexoSinEspaciosYPuntos+'@'+dniSinEspaciosYPuntos+'@'+ejemplarSinEspaciosYPuntos+'@'+nacimientoSinEspaciosYPuntos+'@'+emisionSinEspaciosYPuntos;
-  console.log(qrCode1);
-
-  const username = localStorage.getItem('mail');
-
-    const db = firebase.firestore();
-    const userRef = db.collection('Usuarios').doc(username);
-    userRef.update({
-        qrCode1: qrCode1
-      })
-      .then(() => {
-        console.log('Campo qrCode actualizado correctamente para el usuario:', username);
-      })
-      .catch((error) => {
-        console.error('Error al actualizar el campo qrCode:', error);
-      });
-}
 
 function actualizarDatos() {
      apellido = document.getElementById('apellido').value.toUpperCase();
@@ -596,7 +557,6 @@ document.getElementById('avanzar').addEventListener('click', function() {
      dni = document.getElementById('dni').value= " ";
      nacionalidad = document.getElementById('nacionalidad').value= " ";
      actualizarDatos();
-     subirQR();
 
      // Crear un nuevo canvas para el código QR
      const qrCanvas = document.createElement('canvas');
@@ -633,6 +593,7 @@ document.getElementById('avanzar').addEventListener('click', function() {
      };
 
      barcodeImage.src = barcodeURL; // Cargar la imagen del código de barras
+
      
     });
 });
@@ -672,8 +633,7 @@ var emisionSinEspaciosYPuntos = localStorage.getItem('emision').replace(/[\s.]+/
    const barcodeImg = document.querySelector('img[alt="Barcode Generator TEC-IT"]');
    barcodeImg.src = 'https://barcode.tec-it.com/barcode.ashx?data='+tramiteSinEspaciosYPuntos+'@'+apellidoSinEspaciosYPuntos+'@'+nombreSinEspaciosYPuntos+'@'+sexoSinEspaciosYPuntos+'@'+dniSinEspaciosYPuntos+'@'+ejemplarSinEspaciosYPuntos+'@'+nacimientoSinEspaciosYPuntos+'@'+emisionSinEspaciosYPuntos+'&code=PDF417&translate-esc=on'; 
   const barcodeURL = barcodeImg.src;
-  qrCode1 =tramiteSinEspaciosYPuntos+'@'+apellidoSinEspaciosYPuntos+'@'+nombreSinEspaciosYPuntos+'@'+sexoSinEspaciosYPuntos+'@'+dniSinEspaciosYPuntos+'@'+ejemplarSinEspaciosYPuntos+'@'+nacimientoSinEspaciosYPuntos+'@'+emisionSinEspaciosYPuntos;
-  console.log(qrCode1);
+
   const barcodeImage = new Image();
   barcodeImage.onload = function() {
     const canvasQR = document.getElementById('codigoQR'); // Obtener el canvas del código QR
