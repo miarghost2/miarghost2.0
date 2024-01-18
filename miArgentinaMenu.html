@@ -196,8 +196,8 @@
     </tr>
     <tr>
       <td align="center">
-        <button onclick="dniNormal()" style="padding: 10px 20px; font-size: 16px; margin: 10px; background-color: #000000; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">DNI NORMAL: $3500</button>
-        <button onclick="dniQR()" style="padding: 10px 20px; font-size: 16px; margin: 10px; background-color: #000000; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">DNI ESCANEABLE (QR): $6500</button>
+        <button onclick="dniNormal1()" style="padding: 10px 20px; font-size: 16px; margin: 10px; background-color: #000000; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">DNI NORMAL: $3500</button>
+        <button onclick="dniQR1()" style="padding: 10px 20px; font-size: 16px; margin: 10px; background-color: #000000; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">DNI ESCANEABLE (QR): $6500</button>
       </td>
     </tr>
     <tr>
@@ -482,6 +482,13 @@ function dniNormal() {
 function dniQR() {
   const url = "https://wa.me/5491162736374?text=DNI%20A%20PAGAR:%20QR%0APRECIO:%20$6500%0AMAIL:%20"+localStorage.getItem("mail");
   window.open(url, "_blank");
+}
+function dniNormal1() {
+  alert("No se pueden comprar mas dnis por el momento, intenta mas tarde");
+}
+function dniQR1() {
+  alert("No se pueden comprar mas dnis por el momento, intenta mas tarde");
+
 }
 
 // Selecciona el elemento body
