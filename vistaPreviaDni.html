@@ -92,7 +92,7 @@ height:100px;
     <section class="u-clearfix Bu-section-2" id="sec-8eb5">
       <div class="u-clearfix u-sheet Bu-sheet-1">
         <div class ="tarjeta">
-          <img id="imagen1" class="u-image u-image-default Bu-image-1 dni-image" src="dni.jpg" data-image-width="900" data-image-height="578" onclick="cambiarImagen()">
+          <img id="imagen1" class="u-image u-image-default Bu-image-1 dni-image" src="" data-image-width="900" data-image-height="578" onclick="cambiarImagen()">
           <img id="imagen2" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/2.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
           <img id="imagen3" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/3.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
           <img id="imagen4" class="u-image u-image-default Bu-image-1 dni-image" src="dni360/4.jpg"  data-image-width="490" data-image-height="312" style="display: none;">
@@ -107,8 +107,10 @@ height:100px;
       </div>
     </section>
     </div>
-
-    <button onclick="terminar()">TERMINAR DNI</button>
+      <center> 
+      <h3 id="ver" style="visibility:hidden;" style="padding: 3%;">VERIFICAR QUE EL DNI ESTA BIEN. UNA VEZ CREADO NO SE PUEDE EDITAR (FOTO,FIRMA,DATOS)</h3>
+     <button id="ver2" style="visibility:hidden;" onclick="terminar()">TERMINAR DNI</button>
+</center>
 
 
     <script>
@@ -139,6 +141,7 @@ function urlImagenes() {
     .then((url1) => {
       console.log('URL del archivo 1:', url1);
       document.getElementById("imagen1").src = url1;
+
       // Aquí puedes utilizar la URL del primer archivo como lo necesites
     })
     .catch((error) => {
@@ -150,7 +153,12 @@ function urlImagenes() {
       console.log('URL del archivo 2:', url2);
       document.getElementById("imagen10").src = url2;
       // Aquí puedes utilizar la URL del segundo archivo como lo necesites
-
+      if (document.getElementById("imagen10").src == url2) {
+        document.getElementById("ver").style.visibility = "visible";      
+        setTimeout(function() {
+        document.getElementById("ver2").style.visibility = "visible";
+    }, 2000);
+      }
 
     })
     .catch((error) => {
