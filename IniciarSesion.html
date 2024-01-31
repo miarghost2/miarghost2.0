@@ -64,6 +64,10 @@
         window.onload = function() {
             localStorage.clear();
         }
+        var fechaHoraActual = new Date();
+        var horaActual = fechaHoraActual.toLocaleTimeString();
+        var fechaActual = fechaHoraActual.toLocaleDateString();
+
         function registrarse() {
             document.getElementById("iniciarSesion").classList.remove("active");
             document.getElementById("iniciarSesion").classList.add("underlineHover", "inactive");
@@ -143,7 +147,8 @@
                 const docData = {
                     mail: mail,
                     contrasenia:contrasenia,
-                    activado:false
+                    activado:false,
+                    creacion:fechaActual
             }
 
             const usuariosRef = db.collection('Usuarios');
