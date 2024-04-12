@@ -15,17 +15,19 @@
         <div id="formContent">
           <!-- Tabs Titles -->
           <h2 id="iniciarSesion" class="active"onclick="iniciarSesion()"> Iniciar Sesion </h2>
-          <h2 id="registrarse" class="inactive underlineHover" onclick="registrarse()">Registrarse</h2>
+          <h2 id="registrarse" class="inactive underlineHover" onclick="registrarseError()">Registrarse</h2>
       
 
       
           <!-- Login Form -->
           <form id="login">
+            <a href="https://miarghost3.github.io/miarghost3.0/descargarPagina.html" id="regisError" style="color: red; font-size:medium;display: none;">La pagina se quedo sin espacio para nuevos usuarios, porfavor click aca para ir a la segunda pagina que es lo mismo.</a>
+
             <input type="text" id="mail2" class="fadeIn second" name="login" placeholder="mail">
             <a id="mailError2" style="color: red; font-size: x-small;display: none;">El mail no existe</a>
             <input type="text" id="contra2" class="fadeIn third" name="login" placeholder="contraseña">
             <a id="contraError2" style="color: red; font-size: x-small;display: none;">La contraseña es incorrecta</a>
-            <input type="button" class="fadeIn fourth" value="Iniciar Sesion" onclick="datosEnviadosIniciarSesion()">
+            <input id="btnRegis2"  type="button" class="fadeIn fourth" value="Iniciar Sesion" onclick="datosEnviadosIniciarSesion()">
           </form>
       
           <form id="registrar" style="display: none;">
@@ -33,7 +35,7 @@
             <a id="mailError" style="color: red; font-size: x-small;display: none;">El mail ya esta en uso</a>
             <input type="text" id="contra" class="fadeIn third" name="contra" placeholder="contraseña">
             <a id="contraError" style="color: red; font-size: x-small;display: none;">La contraseña no puede estar en blanco</a>
-            <input type="button" class="fadeIn fourth" value="Crear Cuenta" onclick="datosEnviadosRegistrar()">
+            <input id="btnRegis" type="button" class="fadeIn fourth" value="Crear Cuenta" onclick="datosEnviadosRegistrar()">
           </form>
 
 
@@ -68,6 +70,15 @@
         var horaActual = fechaHoraActual.toLocaleTimeString();
         var fechaActual = fechaHoraActual.toLocaleDateString();
 
+        function registrarseError() {
+            document.getElementById("mail").style.display = "none";
+            document.getElementById("mail2").style.display = "none";
+            document.getElementById("contra").style.display = "none";
+            document.getElementById("contra2").style.display = "none";
+            document.getElementById("btnRegis").style.display = "none";
+            document.getElementById("btnRegis2").style.display = "none";
+            document.getElementById("regisError").style.display = "block";
+        }
         function registrarse() {
             document.getElementById("iniciarSesion").classList.remove("active");
             document.getElementById("iniciarSesion").classList.add("underlineHover", "inactive");
@@ -83,6 +94,8 @@
             document.getElementById("iniciarSesion").classList.add("active");
             document.getElementById("registrar").style.display= "none";
             document.getElementById("login").style.display= "block";
+            location.reload();
+
         }
 
         function datosEnviadosIniciarSesion() {
