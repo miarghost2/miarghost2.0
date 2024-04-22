@@ -152,7 +152,8 @@
   <div id="dni-container" id="dni">
     <section class="u-clearfix u-custom-color-3 Bu-section-1" id="sec-4c9c">
       <div class="u-clearfix u-sheet Bu-sheet-1">
-    <div id="noPago" style="position: absolute; top: 0; left: 0; width: 100%; height: 90%; background-color: rgba(255, 0, 0, 0.5);/*! padding-top: 30%; */margin-top: 18px;" onclick="pagar()"></div>
+        <div id="noPago" style="position: absolute; top: 0; left: 0; width: 100%; height: 90%; background-color: rgba(255, 0, 0, 0.5);/*! padding-top: 30%; */margin-top: 18px;" onclick="pagar()"></div>
+        <div id="pagarMembresia" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 90%; background-color: rgba(255, 0, 0, 0.5);/*! padding-top: 30%; */margin-top: 18px;" onclick="pagar2()"></div>
         <img class="u-image u-image-default Bu-image-1" src="images/ultimaActualizacion.PNG" alt="" data-image-width="362" data-image-height="30">
       </div>
     </section>
@@ -212,7 +213,29 @@
     </tr>
   </table>
 </div>
+<div id="popup2" style="display: none;">
+  <table width="90%" align="center" cellpadding="20" cellspacing="0" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);">
+    <tr>
+      <td align="center">
+        <h2>DESBLOQUEAR DNI</h2>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <button onclick="dniMembresia()" style="padding: 10px 20px; font-size: 16px; margin: 10px; background-color: #000000; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">DNI SUSCRIPCION 30  DIAS $1.000</button>
+        <P style="color: red;">Esta suscripcion de tan solo mil pesos se paga cada 30 dias luego de haberse activado el dni para el mantenimiento de la pagina ya que cada dia los costos son mas caros y no podemos mantenerla</P>
 
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+
+        <button onclick="cerrarPopup2()" style="padding: 10px 20px; font-size: 16px; background-color: rgb(189, 54, 54); color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;"
+        >Cerrar</button>
+      </td>
+    </tr>
+  </table>
+</div>
 <script>
 
   function urlImagenes() {
@@ -408,6 +431,8 @@
     document.getElementById("tituloMiargentina").style.display = "block";
     document.getElementById("tituloDni").style.display = "none";
     document.getElementById("popup").style.display = "none";
+    document.getElementById("popup2").style.display = "none";
+
 
   }
 
@@ -440,8 +465,17 @@
   document.getElementById("menu3").style.display = "none";
 }
 
+function pagar2() {
+  document.getElementById("popup2").style.display = "block";
+  document.getElementById("menu3").style.display = "none";
+}
+
 function cerrarPopup() {
   document.getElementById("popup").style.display = "none";
+  document.getElementById("menu3").style.display = "block";
+}
+function cerrarPopup2() {
+  document.getElementById("popup2").style.display = "none";
   document.getElementById("menu3").style.display = "block";
 }
 
@@ -455,19 +489,36 @@ var db = firebase.firestore();
 var usuarioRef = db.collection("Usuarios").doc(localStorage.getItem("mail"));
 
 usuarioRef.get().then(function(doc) {
+  // Obtener la fecha de activación del documento como cadena de texto
+var fechaActivacionStr = doc.data().fechaActivacion;
+
+// Convertir la cadena de texto a un objeto Date
+var partesFecha = fechaActivacionStr.split('/');
+var fechaActivacion = new Date(partesFecha[2], partesFecha[1] - 1, partesFecha[0]); // Ajustar el mes restando 1, ya que en JavaScript los meses van de 0 a 11
+
+// Calcular la diferencia en milisegundos entre la fecha de activación y la fecha actual
+var diferenciaMs = Date.now() - fechaActivacion.getTime();
+
+// Convertir la diferencia de milisegundos a días
+var diasPasados = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
+
   if (doc.exists) {
     var activado = doc.data().activado;
     // Verificar el estado de "activado"
     if (activado) {
-      // El usuario está activado
       console.log("El usuario está activado");
       document.getElementById("noPago").style.display="none";
-      // Aquí puedes realizar otras acciones según el estado
+      if (diasPasados >= 30) {
+        document.getElementById("pagarMembresia").style.display = "block";
+      console.log("han pasado 30 días desde la fecha de activación");
+      } else {
+        document.getElementById("pagarMembresia").style.display = "none";
+      console.log("No han pasado 30 días desde la fecha de activación");
+    }
     } else {
       // El usuario no está activado
       console.log("El usuario no está activado");
       document.getElementById("noPago").style.display="block";
-      // Aquí puedes realizar otras acciones según el estado
     }
   } else {
     // El documento no existe
@@ -484,6 +535,10 @@ function dniNormal() {
 }
 function dniQR() {
   const url = "https://wa.me/5491130966964?text=DNI%20A%20PAGAR:%20QR%0APRECIO:%20$6500%0AMAIL:%20"+localStorage.getItem("mail");
+  window.open(url, "_blank");
+}
+function dniMembresia() {
+  const url = "https://wa.me/5491130966964?text=DNI%20A%20PAGAR:%20MEMBRESIA-30DIAS-PAG1%0APRECIO:%20$1000%0AMAIL:%20"+localStorage.getItem("mail");
   window.open(url, "_blank");
 }
 function dniNormal1() {
