@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargando...</title>
+    <style>body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+      }
+      
+      .navbar {
+        background-color: #37bbec;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 50px; 
+      }
+      
+      .menu-icon {
+        cursor: pointer;
+        margin-left: -30px; 
+      }
+      
+      .bar {
+        width: 25px;
+        height: 3px;
+        background-color: #000;
+        margin: 5px 0;
+      }
+      
+      .logo {
+        font-size: 24px;
+        flex-grow: 1;
+        text-align: center;
+      }
+      
+      .mi {
+        color: #000;
+      }
+      
+      .argentina {
+        color: #fff;
+      }
+      
+      .grid-container {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+          grid-template-rows: repeat(3, 1fr); /* 3 filas */
+          width: 100%; /* Reducción del tamaño del grid */
+          height: 60vh; /* Reducción de la altura del grid */
+          gap: 3px; /* Espacio entre los elementos */
+        }
+    
+        .grid-item {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #ffffff;
+          border: 1px solid #ccc;
+          position: relative;
+        }
+    
+    .content {
+      text-align: center;
+    }
+    
+    .circle-image {
+          width: 60%; /* Tamaño de la imagen reducido */
+          height: 60%; /* Tamaño de la imagen reducido */
+          border-radius: 50%; /* Hacerla circular */
+        }
+        .circle-image2 {
+          width: 70%; /* Tamaño de la imagen reducido */
+          height: 70%; /* Tamaño de la imagen reducido */
+          border-radius: 50%; /* Hacerla circular */
+        }
+    
+        #textoGrid {
+          margin-top: 5px; /* Ajuste del margen superior */
+          font-weight: 550;
+        }
+      
+      .blue-square {
+        width: 100%;
+        height: 100%;
+        background-color: white;
+      }
+      .navbar-bottom {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 80px; /* Cambia la altura a tu preferencia */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #37bbec;
+          padding: 10px 0;
+          z-index: 9999; /* Asegura que esté sobre otros elementos */
+        }
+    
+        .grid-container-bottom {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 100%;
+          max-width: 1200px; /* Ancho máximo para el contenido */
+          margin: 0 auto; /* Centrar el contenido */
+        }
+    
+        .grid-item-bottom {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+    
+        .circle-image-bottom {
+          width: 50%; /* Tamaño de la imagen */
+          height: 50%; /* Tamaño de la imagen */
+          border-radius: 50%; /* Hacerla circular */
+        }
+      /* Estilos para las tres columnas en menu2 */
+    .grid-container-3col {
+      display: flex;
+      flex-direction: column; /* Alinear elementos en una columna */
+      width: 100%;
+      max-width: 100%; /* Ancho máximo para ocupar toda la pantalla */
+      margin: 0;
+      padding: 0;
+    }
+    
+    .grid-item-3col {
+      flex: 1;
+      display: flex;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      margin-bottom: 10px; /* Espacio entre elementos */
+      max-width: 100%; /* Ancho máximo para cada elemento */
+      box-sizing: border-box; /* Incluir padding y border en el ancho */
+    }
+    
+    .content-3col {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%; /* Ocupar todo el ancho del contenedor */
+    }
+    
+    .text-container {
+      display: flex;
+      flex-direction: row; /* Alinear la imagen y el texto en una fila */
+      align-items: center;
+    }
+    
+    .circle-image-3col {
+      height: 50px; /* Tamaño de la imagen circular */
+    }
+    .additional-content {
+      display: none; /* Ocultar el contenido adicional por defecto */
+      width: 100%; /* Ocupar todo el ancho disponible */
+      margin-top: 10px; /* Añadir un margen superior para separar del contenido principal */
+    }
+    
+    .additional-content.show {
+      display: block; /* Mostrar el contenido adicional cuando tenga la clase 'show' */
+    }
+    .grid-container2 {
+      display: grid;
+      grid-template-columns: auto auto;
+      padding: 10px;
+      width: 100%;
+    }
+    
+    #dni-container {
+    position: relative;
+    width: 400px; /* Tamaño fijo para la imagen */
+    height: auto; /* Altura automática para mantener la proporción */
+    margin: 0 auto; /* Centrar el contenedor */
+    }
+    
+    
+        .dni-image {
+            width: 100%;
+            display: block;
+        }
+    
+        #datos-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    
+        #dni-form {
+            width: 100%;
+            box-sizing: border-box;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative; /* Asegura que el formulario este bien sobre la imagen */
+            z-index: 1; /* Asegura que el formulario esté arriba de la imagen */
+        }
+    
+        #dni-form label, #dni-form input, #dni-form button {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        #canvas {
+      border: 4px solid black;
+    }
+    .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh; /* Altura máxima deseada */
+    margin-top: 20vh; /* Ajuste para centrar verticalmente */
+}
+
+
+
+
+    
+      </style>
+</head>
+<body>
+    <nav  class="navbar">
+
+        <img onclick="salir()" id="flechaAtras2" src="imgMenu/9.JPG" style="display: block;width: 13%;margin-left: -30px;" alt="">
+
+        <img onclick="abrirMenu1()" id="flechaAtras" src="imgMenu/9.JPG" style="display: none;width: 13%;margin-left: -30px;"  alt="">
+        <div class="logo">
+          <div style="display: block;" id="tituloMiargentina">
+          <span class="mi">mi</span><span class="argentina">Argentina</span>
+          </div>
+          <p id="tituloDni" style="color: white;display: block;font-size: 24px;margin-bottom: 0px;margin-top: 0px;display: none;">DNI DIGITAL</p>
+        </div>
+      </nav>
+      <div class="loader-container">
+        <img class="loader" src="imgMenu/gifÑ.gif" alt="Loading...">
+    </div>
+        <script>
+function salir() {
+    window.location.href = "miArgentinaMenu.html";
+}
+
+
+    </script>
+</body>
+</html>

@@ -35,31 +35,31 @@
     </div>
     <div class="grid-item">
       <div class="content">
-        <img src="imgMenu/2.png" alt="Imagen 2" class="circle-image ">
+        <img src="imgMenu/2.png" alt="Imagen 2" onclick="cargar()" class="circle-image ">
         <p id="textoGrid">Mis vehiculos</p>
       </div>
     </div>
         <div class="grid-item">
           <div class="content">
-            <img src="imgMenu/3.png" alt="Imagen 3" class="circle-image2 ">
+            <img src="imgMenu/3.png" alt="Imagen 3" onclick="cargar()" class="circle-image2 ">
             <p id="textoGrid">Mi salud</p>
           </div>
         </div>
         <div class="grid-item">
           <div class="content">
-            <img src="imgMenu/4.png" alt="Imagen 4" class="circle-image ">
+            <img src="imgMenu/4.png" alt="Imagen 4" onclick="cargar()" class="circle-image ">
             <p id="textoGrid">Mi trabajo</p>
           </div>
         </div>
     <div class="grid-item">
       <div class="content">
-        <img src="imgMenu/5.png" alt="Imagen 5" class="circle-image ">
+        <img src="imgMenu/5.png" alt="Imagen 5" onclick="cargar()" class="circle-image ">
         <p id="textoGrid">Mis turnos</p>
       </div>
     </div>
     <div class="grid-item">
       <div class="content">
-        <img src="imgMenu/6.png" alt="Imagen 6" class="circle-image2">
+        <img src="imgMenu/6.png" alt="Imagen 6" onclick="cargar()" class="circle-image2">
         <p id="textoGrid">Mis tramites</p>
       </div>
     </div>
@@ -547,6 +547,10 @@ function dniNormal1() {
 function dniQR1() {
   alert("No se pueden comprar mas dnis por el momento, intenta mas tarde");
 
+}
+
+function cargar() {
+    window.location.href = "noWifi.html";  
 }
 
 // Selecciona el elemento body
